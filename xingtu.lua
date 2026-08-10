@@ -1,4 +1,7 @@
---开源 by 星际 
+
+--开源 by星际--
+
+
 
 local Players = game:GetService("Players")
 local LP = Players.LocalPlayer
@@ -19,27 +22,27 @@ local Toggles = Library.Toggles
 Library.ForceCheckbox = false
 Library.ShowToggleFrameInKeybinds = true
 local Window = Library:CreateWindow({
-    Title = "星  途🤫",
+    Title = "星途",
     Footer = LP.Name .. " | " .. gameName,
     NotifySide = "Right",
     ShowCustomCursor = true,
     Icon = "rbxassetid://111271260721038"
 })
 local Tabs = {
-    ["玩家信息"] = Window:AddTab("玩家信息", "user"),
-    ["透视"] = Window:AddTab("透视", "eye"),
-    ["发电机"] = Window:AddTab("发电机", "zap"),
-    ["玩家"] = Window:AddTab("玩家", "user"),
-    ["自瞄"] = Window:AddTab("自动瞄准", "crosshair"),
-    ["格挡"] = Window:AddTab("格挡", "shield"),
-    ["背刺"] = Window:AddTab("背刺", "sword"),
-    ["滑板"] = Window:AddTab("滑板", "zap"),
-    ["动作"] = Window:AddTab("动作", "smile"),
-    ["音乐"]  = Window:AddTab("音乐", "music"),
-    ["其余"] = Window:AddTab("杂项", "paperclip"),
-    ["界面设置"] = Window:AddTab("界面设置", "settings"),
+    ["Player Info"] = Window:AddTab("Player Info", "user"),
+    ["ESP"] = Window:AddTab("ESP", "eye"),
+    ["Generator"] = Window:AddTab("Generator", "zap"),
+    ["Player"] = Window:AddTab("Player", "user"),
+    ["Aimbot"] = Window:AddTab("Aimbot", "crosshair"),
+    ["Block"] = Window:AddTab("Block", "shield"),
+    ["Stab"] = Window:AddTab("Stab", "sword"),
+    ["Sk8"] = Window:AddTab("Sk8", "zap"),
+    ["Action"] = Window:AddTab("Action", "smile"),
+    ["Music"]  = Window:AddTab("Music", "music"),
+    ["Misc"] = Window:AddTab("Misc", "paperclip"),
+    ["UI Settings"] = Window:AddTab("UI Settings", "settings"),
 }
-local information = Tabs["玩家信息"]:AddLeftGroupbox("玩家", "user")
+local information = Tabs["Player Info"]:AddLeftGroupbox("Player", "user")
 local avatarImage = Instance.new("ImageLabel")
 avatarImage.Name = "AvatarThumbnail"
 avatarImage.Size = UDim2.new(0, 220, 0, 220)
@@ -74,34 +77,42 @@ spawn(function()
         end
     end
 end)
-information:AddLabel("执行器 : " .. identifyexecutor())
-information:AddLabel("用户名 : " .. game.Players.LocalPlayer.Name)
-information:AddLabel("用户ID : " .. game.Players.LocalPlayer.UserId)
-information:AddLabel("显示名称 : " .. game.Players.LocalPlayer.DisplayName)
-information:AddLabel("账号年龄 : " .. game.Players.LocalPlayer.AccountAge .. " 天")
-local InfoGroup = Tabs["玩家信息"]:AddRightGroupbox("信息", "info")
-local welcomeLabel = InfoGroup:AddLabel({Text = "欢迎使用 星途", DoesWrap = true})
+information:AddLabel("Executor : " .. identifyexecutor())
+information:AddLabel("Username : " .. game.Players.LocalPlayer.Name)
+information:AddLabel("User ID : " .. game.Players.LocalPlayer.UserId)
+information:AddLabel("Display Name : " .. game.Players.LocalPlayer.DisplayName)
+information:AddLabel("Account Age : " .. game.Players.LocalPlayer.AccountAge .. " days")
+local InfoGroup = Tabs["Player Info"]:AddRightGroupbox("Info", "info")
+local welcomeLabel = InfoGroup:AddLabel({Text = "Welcome to Fixsaken", DoesWrap = true})
 task.spawn(function()
     while true do
         task.wait(0.1)
         local accentColor = ThemeManager.ThemeData.AccentColor or Color3.fromRGB(137, 180, 250)
-        local fullText = '欢迎使用 <font color="#' .. string.format("%02x%02x%02x",
+        local fullText = 'Welcome to <font color="#' .. string.format("%02x%02x%02x",
             math.floor(accentColor.R * 255), math.floor(accentColor.G * 255), math.floor(accentColor.B * 255)) .. '">Fixsaken</font>'
         welcomeLabel:SetText(fullText)
         if Library.Unloaded then break end
     end
 end)
-local CommunityGroup = Tabs["玩家信息"]:AddRightGroupbox("社区", "users")
-CommunityGroup:AddButton("复制Discord链接", function()
+local DevGroup = Tabs["Player Info"]:AddRightGroupbox("Developer", "user")
+DevGroup:AddLabel("[FixFox] - Owner And Developer")
+local ContributorGroup = Tabs["Player Info"]:AddRightGroupbox("Contributor", "users")
+ContributorGroup:AddLabel("[Yuxingchen] - [Contribution and Guidance]")
+ContributorGroup:AddLabel("[Fixed] - Tester")
+ContributorGroup:AddLabel("[777] - Tester")
+ContributorGroup:AddLabel("[yeye] - Tester")
+ContributorGroup:AddLabel("[TUNG_SAHUR] - Publicist")
+local CommunityGroup = Tabs["Player Info"]:AddRightGroupbox("Community", "users")
+CommunityGroup:AddButton("Copy Discord Link", function()
     pcall(function()
-        setclipboard("https://discord.gg/F4wrAGnRgF")
-        Library:Notify({Title = "Discord", Description = "链接已复制到剪贴板", Time = 2})
+        setclipboard("https://discord.gg")
+        Library:Notify({Title = "Discord", Description = "Link copied to clipboard", Time = 2})
     end)
 end)
-CommunityGroup:AddButton("QQ群", function()
+CommunityGroup:AddButton("QQ", function()
     pcall(function()
-        setclipboard("1058111379")
-        Library:Notify({Title = "QQ", Description = "QQ号已复制到剪贴板", Time = 2})
+        setclipboard("1020592687")
+        Library:Notify({Title = "QQ", Description = "QQ number copied to clipboard", Time = 2})
     end)
 end)
 
@@ -196,7 +207,7 @@ local function createPlayerESP(model, color, isKiller)
     nameLabel.Size = UDim2.new(1, 0, 0.4, 0)
     nameLabel.Position = UDim2.new(0, 0, 0, 0)
     nameLabel.BackgroundTransparency = 1
-    nameLabel.Text = "加载中..."
+    nameLabel.Text = "Loading..."
     nameLabel.Font = Enum.Font.Jura
     nameLabel.TextColor3 = color
     nameLabel.TextSize = 8
@@ -206,7 +217,7 @@ local function createPlayerESP(model, color, isKiller)
     hpLabel.Size = UDim2.new(1, 0, 0.4, 0)
     hpLabel.Position = UDim2.new(0, 0, 0.4, 0)
     hpLabel.BackgroundTransparency = 1
-    hpLabel.Text = "HP: 无"
+    hpLabel.Text = "HP: N/A"
     hpLabel.Font = Enum.Font.Jura
     hpLabel.TextColor3 = color
     hpLabel.TextSize = 8
@@ -218,7 +229,7 @@ local function createPlayerESP(model, color, isKiller)
         if not data.model or not data.model.Parent then return end
         local m = data.model
         local isK = data.isKiller
-        local displayName = m:GetAttribute("ActorDisplayName") or (isK and "杀手" or "幸存者")
+        local displayName = m:GetAttribute("ActorDisplayName") or (isK and "KILLER" or "SURVIVOR")
         local skinName = m:GetAttribute("SkinNameDisplay")
         local text = displayName
         if (isK and ESPSettings.killerSkinESP) or (not isK and ESPSettings.survivorSkinESP) then
@@ -430,7 +441,7 @@ local function UpdateESP()
                 if nameLower == "groundbulbmodel" then
                     if ESPSettings.azureGroundBulbESP then
                         if not obj:FindFirstChild("TAOWARE_Highlight") then
-                            CreateObjectESP(obj, ESPSettings.azureGroundBulbColor, false, false, false, false, false, false, false, false, true, "地面灯泡")
+                            CreateObjectESP(obj, ESPSettings.azureGroundBulbColor, false, false, false, false, false, false, false, false, true, "GroundBulb")
                         end
                     else
                         RemoveObjectESP(obj)
@@ -438,7 +449,7 @@ local function UpdateESP()
                 elseif nameLower == "vinemodel" then
                     if ESPSettings.azureVineESP then
                         if not obj:FindFirstChild("TAOWARE_Highlight") then
-                            CreateObjectESP(obj, ESPSettings.azureVineColor, false, false, false, false, false, false, false, false, true, "藤蔓")
+                            CreateObjectESP(obj, ESPSettings.azureVineColor, false, false, false, false, false, false, false, false, true, "Vine")
                         end
                     else
                         RemoveObjectESP(obj)
@@ -454,7 +465,7 @@ function EspLib:UpdateAllPlayerText()
     for _, d in ipairs(PlayerESPData) do
         local m = d.model
         local isK = d.isKiller
-        local displayName = m:GetAttribute("ActorDisplayName") or (isK and "杀手" or "幸存者")
+        local displayName = m:GetAttribute("ActorDisplayName") or (isK and "KILLER" or "SURVIVOR")
         local skinName = m:GetAttribute("SkinNameDisplay")
         local text = displayName
         if (isK and ESPSettings.killerSkinESP) or (not isK and ESPSettings.survivorSkinESP) then
@@ -468,78 +479,78 @@ function EspLib:UpdateAllPlayerText()
     end
 end
 function EspLib:UpdateObjectNames() end
-local KillerGroup = Tabs.透视:AddLeftGroupbox("杀手", "user")
-local SurvivorGroup = Tabs.透视:AddLeftGroupbox("幸存者", "user")
-local ItemGroup = Tabs.透视:AddRightGroupbox("物品", "box")
-local SpecialGroup = Tabs.透视:AddRightGroupbox("特殊", "alert")
-local TracerGroup = Tabs.透视:AddRightGroupbox("轨迹线", "line")
-local NameToggleGroup = Tabs.透视:AddRightGroupbox("名称显示", "font")
-KillerGroup:AddToggle("KillerESP", { Text = "杀手透视", Default = false, Callback = function(Value) ESPSettings.killerESP = Value end })
-KillerGroup:AddToggle("KillerNameESP", { Text = "显示杀手名称", Default = true, Callback = function(Value) ESPSettings.killerNameESP = Value; EspLib:UpdateAllPlayerText() end })
-KillerGroup:AddToggle("KillerHealthESP", { Text = "显示杀手生命值", Default = true, Callback = function(Value) ESPSettings.killerHealthESP = Value; EspLib:UpdateAllPlayerText() end })
-KillerGroup:AddToggle("KillerSkinESP", { Text = "显示杀手皮肤", Default = false, Callback = function(Value) ESPSettings.killerSkinESP = Value; EspLib:UpdateAllPlayerText() end })
-KillerGroup:AddSlider("KillerFillTransparency", { Text = "填充透明度", Default = 0.7, Min = 0, Max = 1, Rounding = 2, Compact = false, Callback = function(Value) ESPSettings.killerFillTransparency = Value; EspLib:UpdateAllPlayerText() end })
-KillerGroup:AddSlider("KillerOutlineTransparency", { Text = "轮廓透明度", Default = 0.3, Min = 0, Max = 1, Rounding = 2, Compact = false, Callback = function(Value) ESPSettings.killerOutlineTransparency = Value; EspLib:UpdateAllPlayerText() end })
-KillerGroup:AddLabel("杀手颜色"):AddColorPicker("KillerColor", { Default = ESPSettings.killerColor, Title = "杀手透视颜色", Callback = function(Value) ESPSettings.killerColor = Value end })
-SurvivorGroup:AddToggle("SurvivorESP", { Text = "幸存者透视", Default = false, Callback = function(Value) ESPSettings.playerESP = Value end })
-SurvivorGroup:AddToggle("SurvivorNameESP", { Text = "显示幸存者名称", Default = true, Callback = function(Value) ESPSettings.survivorNameESP = Value; EspLib:UpdateAllPlayerText() end })
-SurvivorGroup:AddToggle("SurvivorHealthESP", { Text = "显示幸存者生命值", Default = true, Callback = function(Value) ESPSettings.survivorHealthESP = Value; EspLib:UpdateAllPlayerText() end })
-SurvivorGroup:AddToggle("SurvivorSkinESP", { Text = "显示幸存者皮肤", Default = false, Callback = function(Value) ESPSettings.survivorSkinESP = Value; EspLib:UpdateAllPlayerText() end })
-SurvivorGroup:AddSlider("SurvivorFillTransparency", { Text = "填充透明度", Default = 0.7, Min = 0, Max = 1, Rounding = 2, Compact = false, Callback = function(Value) ESPSettings.survivorFillTransparency = Value; EspLib:UpdateAllPlayerText() end })
-SurvivorGroup:AddSlider("SurvivorOutlineTransparency", { Text = "轮廓透明度", Default = 0.3, Min = 0, Max = 1, Rounding = 2, Compact = false, Callback = function(Value) ESPSettings.survivorOutlineTransparency = Value; EspLib:UpdateAllPlayerText() end })
-SurvivorGroup:AddLabel("幸存者颜色"):AddColorPicker("SurvivorColor", { Default = ESPSettings.survivorColor, Title = "幸存者透视颜色", Callback = function(Value) ESPSettings.survivorColor = Value end })
-ItemGroup:AddToggle("GeneratorESP", { Text = "发电机透视", Default = false, Callback = function(Value) ESPSettings.generatorESP = Value end }):AddColorPicker("GeneratorColor", { Default = ESPSettings.generatorColor, Title = "发电机颜色", Callback = function(Value) ESPSettings.generatorColor = Value end })
-ItemGroup:AddToggle("ItemESP", { Text = "物品透视", Default = false, Callback = function(Value) ESPSettings.itemESP = Value end }):AddColorPicker("ItemColor", { Default = ESPSettings.itemColor, Title = "物品颜色", Callback = function(Value) ESPSettings.itemColor = Value end })
-ItemGroup:AddToggle("PizzaESP", { Text = "披萨透视", Default = false, Callback = function(Value) ESPSettings.pizzaEsp = Value end }):AddColorPicker("PizzaColor", { Default = ESPSettings.pizzaColor, Title = "披萨颜色", Callback = function(Value) ESPSettings.pizzaColor = Value end })
-ItemGroup:AddToggle("TaphTripwireESP", { Text = "绊线透视", Default = false, Callback = function(Value) ESPSettings.taphTripwireEsp = Value end }):AddColorPicker("TaphTripwireColor", { Default = ESPSettings.taphTripwireColor, Title = "绊线颜色", Callback = function(Value) ESPSettings.taphTripwireColor = Value end })
-ItemGroup:AddToggle("TripMineESP", { Text = "地雷透视", Default = false, Callback = function(Value) ESPSettings.tripMineEsp = Value end }):AddColorPicker("TripMineColor", { Default = ESPSettings.tripMineColor, Title = "地雷颜色", Callback = function(Value) ESPSettings.tripMineColor = Value end })
-ItemGroup:AddToggle("TwoTimeRespawnESP", { Text = "重生点透视", Default = false, Callback = function(Value) ESPSettings.twoTimeRespawnEsp = Value end }):AddColorPicker("TwoTimeRespawnColor", { Default = ESPSettings.twoTimeRespawnColor, Title = "重生点颜色", Callback = function(Value) ESPSettings.twoTimeRespawnColor = Value end })
-ItemGroup:AddToggle("GraffitiESP", { Text = "涂鸦透视", Default = false, Callback = function(Value) ESPSettings.graffitiEsp = Value end }):AddColorPicker("GraffitiColor", { Default = ESPSettings.graffitiColor, Title = "涂鸦颜色", Callback = function(Value) ESPSettings.graffitiColor = Value end })
-SpecialGroup:AddToggle("PizzaDeliveryESP", { Text = "披萨外卖员透视", Default = false, Callback = function(Value) ESPSettings.pizzaDeliveryEsp = Value end }):AddColorPicker("PizzaDeliveryColor", { Default = ESPSettings.pizzaDeliveryColor, Title = "外卖员颜色", Callback = function(Value) ESPSettings.pizzaDeliveryColor = Value end })
-SpecialGroup:AddToggle("ZombieESP", { Text = "僵尸透视", Default = false, Callback = function(Value) ESPSettings.zombieEsp = Value end }):AddColorPicker("ZombieColor", { Default = ESPSettings.zombieColor, Title = "僵尸颜色", Callback = function(Value) ESPSettings.zombieColor = Value end })
+local KillerGroup = Tabs.ESP:AddLeftGroupbox("Killer", "user")
+local SurvivorGroup = Tabs.ESP:AddLeftGroupbox("Survivor", "user")
+local ItemGroup = Tabs.ESP:AddRightGroupbox("Items", "box")
+local SpecialGroup = Tabs.ESP:AddRightGroupbox("Special", "alert")
+local TracerGroup = Tabs.ESP:AddRightGroupbox("Tracers", "line")
+local NameToggleGroup = Tabs.ESP:AddRightGroupbox("Names", "font")
+KillerGroup:AddToggle("KillerESP", { Text = "杀手 ESP", Default = false, Callback = function(Value) ESPSettings.killerESP = Value end })
+KillerGroup:AddToggle("KillerNameESP", { Text = "显示杀手名字", Default = true, Callback = function(Value) ESPSettings.killerNameESP = Value; EspLib:UpdateAllPlayerText() end })
+KillerGroup:AddToggle("KillerHealthESP", { Text = "Show Killer Health", Default = true, Callback = function(Value) ESPSettings.killerHealthESP = Value; EspLib:UpdateAllPlayerText() end })
+KillerGroup:AddToggle("KillerSkinESP", { Text = "显示杀手的皮肤", Default = false, Callback = function(Value) ESPSettings.killerSkinESP = Value; EspLib:UpdateAllPlayerText() end })
+KillerGroup:AddSlider("KillerFillTransparency", { Text = "Fill Transparency", Default = 0.7, Min = 0, Max = 1, Rounding = 2, Compact = false, Callback = function(Value) ESPSettings.killerFillTransparency = Value; EspLib:UpdateAllPlayerText() end })
+KillerGroup:AddSlider("KillerOutlineTransparency", { Text = "Outline Transparency", Default = 0.3, Min = 0, Max = 1, Rounding = 2, Compact = false, Callback = function(Value) ESPSettings.killerOutlineTransparency = Value; EspLib:UpdateAllPlayerText() end })
+KillerGroup:AddLabel("Killer Color"):AddColorPicker("KillerColor", { Default = ESPSettings.killerColor, Title = "Killer ESP Color", Callback = function(Value) ESPSettings.killerColor = Value end })
+SurvivorGroup:AddToggle("SurvivorESP", { Text = "Survivor ESP", Default = false, Callback = function(Value) ESPSettings.playerESP = Value end })
+SurvivorGroup:AddToggle("SurvivorNameESP", { Text = "Show Survivor Name", Default = true, Callback = function(Value) ESPSettings.survivorNameESP = Value; EspLib:UpdateAllPlayerText() end })
+SurvivorGroup:AddToggle("SurvivorHealthESP", { Text = "Show Survivor Health", Default = true, Callback = function(Value) ESPSettings.survivorHealthESP = Value; EspLib:UpdateAllPlayerText() end })
+SurvivorGroup:AddToggle("SurvivorSkinESP", { Text = "Show Survivor Skin", Default = false, Callback = function(Value) ESPSettings.survivorSkinESP = Value; EspLib:UpdateAllPlayerText() end })
+SurvivorGroup:AddSlider("SurvivorFillTransparency", { Text = "Fill Transparency", Default = 0.7, Min = 0, Max = 1, Rounding = 2, Compact = false, Callback = function(Value) ESPSettings.survivorFillTransparency = Value; EspLib:UpdateAllPlayerText() end })
+SurvivorGroup:AddSlider("SurvivorOutlineTransparency", { Text = "Outline Transparency", Default = 0.3, Min = 0, Max = 1, Rounding = 2, Compact = false, Callback = function(Value) ESPSettings.survivorOutlineTransparency = Value; EspLib:UpdateAllPlayerText() end })
+SurvivorGroup:AddLabel("Survivor Color"):AddColorPicker("SurvivorColor", { Default = ESPSettings.survivorColor, Title = "Survivor ESP Color", Callback = function(Value) ESPSettings.survivorColor = Value end })
+ItemGroup:AddToggle("GeneratorESP", { Text = "Generator ESP", Default = false, Callback = function(Value) ESPSettings.generatorESP = Value end }):AddColorPicker("GeneratorColor", { Default = ESPSettings.generatorColor, Title = "Generator Color", Callback = function(Value) ESPSettings.generatorColor = Value end })
+ItemGroup:AddToggle("ItemESP", { Text = "Item ESP", Default = false, Callback = function(Value) ESPSettings.itemESP = Value end }):AddColorPicker("ItemColor", { Default = ESPSettings.itemColor, Title = "Item Color", Callback = function(Value) ESPSettings.itemColor = Value end })
+ItemGroup:AddToggle("PizzaESP", { Text = "披萨 ESP", Default = false, Callback = function(Value) ESPSettings.pizzaEsp = Value end }):AddColorPicker("PizzaColor", { Default = ESPSettings.pizzaColor, Title = "Pizza Color", Callback = function(Value) ESPSettings.pizzaColor = Value end })
+ItemGroup:AddToggle("TaphTripwireESP", { Text = "Tripwire ESP", Default = false, Callback = function(Value) ESPSettings.taphTripwireEsp = Value end }):AddColorPicker("TaphTripwireColor", { Default = ESPSettings.taphTripwireColor, Title = "Tripwire Color", Callback = function(Value) ESPSettings.taphTripwireColor = Value end })
+ItemGroup:AddToggle("TripMineESP", { Text = "Mine ESP", Default = false, Callback = function(Value) ESPSettings.tripMineEsp = Value end }):AddColorPicker("TripMineColor", { Default = ESPSettings.tripMineColor, Title = "Mine Color", Callback = function(Value) ESPSettings.tripMineColor = Value end })
+ItemGroup:AddToggle("TwoTimeRespawnESP", { Text = "Respawn ESP", Default = false, Callback = function(Value) ESPSettings.twoTimeRespawnEsp = Value end }):AddColorPicker("TwoTimeRespawnColor", { Default = ESPSettings.twoTimeRespawnColor, Title = "Respawn Color", Callback = function(Value) ESPSettings.twoTimeRespawnColor = Value end })
+ItemGroup:AddToggle("GraffitiESP", { Text = "Graffiti ESP", Default = false, Callback = function(Value) ESPSettings.graffitiEsp = Value end }):AddColorPicker("GraffitiColor", { Default = ESPSettings.graffitiColor, Title = "Graffiti Color", Callback = function(Value) ESPSettings.graffitiColor = Value end })
+SpecialGroup:AddToggle("PizzaDeliveryESP", { Text = "Pizza Delivery ESP", Default = false, Callback = function(Value) ESPSettings.pizzaDeliveryEsp = Value end }):AddColorPicker("PizzaDeliveryColor", { Default = ESPSettings.pizzaDeliveryColor, Title = "Delivery Color", Callback = function(Value) ESPSettings.pizzaDeliveryColor = Value end })
+SpecialGroup:AddToggle("傀儡ESP", { Text = "Zombie ESP", Default = false, Callback = function(Value) ESPSettings.zombieEsp = Value end }):AddColorPicker("ZombieColor", { Default = ESPSettings.zombieColor, Title = "Zombie Color", Callback = function(Value) ESPSettings.zombieColor = Value end })
 SpecialGroup:AddToggle("AzureGroundBulbESP", {
-    Text = "地面灯泡透视",
+    Text = "炸弹 ESP",
     Default = false,
     Callback = function(Value) ESPSettings.azureGroundBulbESP = Value end
 }):AddColorPicker("AzureGroundBulbColor", {
     Default = ESPSettings.azureGroundBulbColor,
-    Title = "地面灯泡颜色",
+    Title = "炸弹颜色",
     Callback = function(Value) ESPSettings.azureGroundBulbColor = Value end
 })
 SpecialGroup:AddToggle("AzureVineESP", {
-    Text = "藤蔓透视",
+    Text = "我也不知道这个是啥",
     Default = false,
     Callback = function(Value) ESPSettings.azureVineESP = Value end
 }):AddColorPicker("AzureVineColor", {
     Default = ESPSettings.azureVineColor,
-    Title = "藤蔓颜色",
+    Title = "Vine Color",
     Callback = function(Value) ESPSettings.azureVineColor = Value end
 })
-TracerGroup:AddToggle("GeneratorTracers", { Text = "发电机轨迹线", Default = false, Callback = function(Value) ESPSettings.generatorTracers = Value end })
-TracerGroup:AddToggle("ItemTracers", { Text = "物品轨迹线", Default = false, Callback = function(Value) ESPSettings.itemTracers = Value end })
-TracerGroup:AddToggle("PizzaTracers", { Text = "披萨轨迹线", Default = false, Callback = function(Value) ESPSettings.pizzaTracers = Value end })
-TracerGroup:AddToggle("PizzaDeliveryTracers", { Text = "外卖员轨迹线", Default = false, Callback = function(Value) ESPSettings.pizzaDeliveryTracers = Value end })
-TracerGroup:AddToggle("ZombieTracers", { Text = "僵尸轨迹线", Default = false, Callback = function(Value) ESPSettings.zombieTracers = Value end })
-TracerGroup:AddToggle("TaphTripwireTracers", { Text = "绊线轨迹线", Default = false, Callback = function(Value) ESPSettings.taphTripwireTracers = Value end })
-TracerGroup:AddToggle("TripMineTracers", { Text = "地雷轨迹线", Default = false, Callback = function(Value) ESPSettings.tripMineTracers = Value end })
-TracerGroup:AddToggle("TwoTimeRespawnTracers", { Text = "重生点轨迹线", Default = false, Callback = function(Value) ESPSettings.twoTimeRespawnTracers = Value end })
-NameToggleGroup:AddToggle("ShowGeneratorName", { Text = "显示发电机名称", Default = true, Callback = function(Value) ESPSettings.showGeneratorName = Value end })
-NameToggleGroup:AddToggle("ShowItemName", { Text = "显示物品名称", Default = true, Callback = function(Value) ESPSettings.showItemName = Value end })
-NameToggleGroup:AddToggle("ShowPizzaName", { Text = "显示披萨名称", Default = true, Callback = function(Value) ESPSettings.showPizzaName = Value end })
-NameToggleGroup:AddToggle("ShowPizzaDeliveryName", { Text = "显示外卖员名称", Default = true, Callback = function(Value) ESPSettings.showPizzaDeliveryName = Value end })
-NameToggleGroup:AddToggle("ShowZombieName", { Text = "显示僵尸名称", Default = true, Callback = function(Value) ESPSettings.showZombieName = Value end })
-NameToggleGroup:AddToggle("ShowTaphTripwireName", { Text = "显示绊线名称", Default = true, Callback = function(Value) ESPSettings.showTaphTripwireName = Value end })
-NameToggleGroup:AddToggle("ShowTripMineName", { Text = "显示地雷名称", Default = true, Callback = function(Value) ESPSettings.showTripMineName = Value end })
-NameToggleGroup:AddToggle("ShowTwoTimeRespawnName", { Text = "显示重生点名称", Default = true, Callback = function(Value) ESPSettings.showTwoTimeRespawnName = Value end })
-NameToggleGroup:AddToggle("ShowGraffitiName", { Text = "显示涂鸦名称", Default = true, Callback = function(Value) ESPSettings.showGraffitiName = Value end })
+TracerGroup:AddToggle("GeneratorTracers", { Text = "Generator Tracers", Default = false, Callback = function(Value) ESPSettings.generatorTracers = Value end })
+TracerGroup:AddToggle("ItemTracers", { Text = "Item Tracers", Default = false, Callback = function(Value) ESPSettings.itemTracers = Value end })
+TracerGroup:AddToggle("PizzaTracers", { Text = "Pizza Tracers", Default = false, Callback = function(Value) ESPSettings.pizzaTracers = Value end })
+TracerGroup:AddToggle("PizzaDeliveryTracers", { Text = "Pizza Delivery Tracers", Default = false, Callback = function(Value) ESPSettings.pizzaDeliveryTracers = Value end })
+TracerGroup:AddToggle("ZombieTracers", { Text = "Zombie Tracers", Default = false, Callback = function(Value) ESPSettings.zombieTracers = Value end })
+TracerGroup:AddToggle("TaphTripwireTracers", { Text = "Tripwire Tracers", Default = false, Callback = function(Value) ESPSettings.taphTripwireTracers = Value end })
+TracerGroup:AddToggle("TripMineTracers", { Text = "Mine Tracers", Default = false, Callback = function(Value) ESPSettings.tripMineTracers = Value end })
+TracerGroup:AddToggle("TwoTimeRespawnTracers", { Text = "Respawn Tracers", Default = false, Callback = function(Value) ESPSettings.twoTimeRespawnTracers = Value end })
+NameToggleGroup:AddToggle("ShowGeneratorName", { Text = "Show Generator Name", Default = true, Callback = function(Value) ESPSettings.showGeneratorName = Value end })
+NameToggleGroup:AddToggle("ShowItemName", { Text = "Show Item Name", Default = true, Callback = function(Value) ESPSettings.showItemName = Value end })
+NameToggleGroup:AddToggle("ShowPizzaName", { Text = "Show Pizza Name", Default = true, Callback = function(Value) ESPSettings.showPizzaName = Value end })
+NameToggleGroup:AddToggle("ShowPizzaDeliveryName", { Text = "Show Delivery Name", Default = true, Callback = function(Value) ESPSettings.showPizzaDeliveryName = Value end })
+NameToggleGroup:AddToggle("ShowZombieName", { Text = "Show Zombie Name", Default = true, Callback = function(Value) ESPSettings.showZombieName = Value end })
+NameToggleGroup:AddToggle("ShowTaphTripwireName", { Text = "Show Tripwire Name", Default = true, Callback = function(Value) ESPSettings.showTaphTripwireName = Value end })
+NameToggleGroup:AddToggle("ShowTripMineName", { Text = "Show Mine Name", Default = true, Callback = function(Value) ESPSettings.showTripMineName = Value end })
+NameToggleGroup:AddToggle("ShowTwoTimeRespawnName", { Text = "Show Respawn Name", Default = true, Callback = function(Value) ESPSettings.showTwoTimeRespawnName = Value end })
+NameToggleGroup:AddToggle("ShowGraffitiName", { Text = "Show Graffiti Name", Default = true, Callback = function(Value) ESPSettings.showGraffitiName = Value end })
 
 local flow = { on = false, nodeDelay = 0.04 }
 local function flowKey(n) return n.row .. "-" .. n.col end
 local function flowNeighbour(r1, c1, r2, c2)
-    if r2 == r1 - 1 and c2 == c1 then return "上" end
-    if r2 == r1 + 1 and c2 == c1 then return "下" end
-    if r2 == r1 and c2 == c1 - 1 then return "左" end
-    if r2 == r1 and c2 == c1 + 1 then return "右" end
+    if r2 == r1 - 1 and c2 == c1 then return "up" end
+    if r2 == r1 + 1 and c2 == c1 then return "down" end
+    if r2 == r1 and c2 == c1 - 1 then return "left" end
+    if r2 == r1 and c2 == c1 + 1 then return "right" end
     return false
 end
 local function flowOrder(path, endpoints)
@@ -618,16 +629,16 @@ do
         end
     end)
 end
-local genLeft = Tabs.发电机:AddLeftGroupbox("自动解谜", "zap")
-genLeft:AddToggle("FlowAutoSolve", { Text = "自动解谜", Default = flow.on, Callback = function(Value) flow.on = Value end })
-local genRight = Tabs.发电机:AddRightGroupbox("设置", "sliders")
-genRight:AddSlider("FlowSpeed", { Text = "自动解谜速度", Default = flow.nodeDelay, Min = 0.01, Max = 0.50, Rounding = 2, Compact = false, Callback = function(Value) flow.nodeDelay = Value end })
+local genLeft = Tabs.Generator:AddLeftGroupbox("Auto Solve", "zap")
+genLeft:AddToggle("FlowAutoSolve", { Text = "Auto Solve", Default = flow.on, Callback = function(Value) flow.on = Value end })
+local genRight = Tabs.Generator:AddRightGroupbox("Settings", "sliders")
+genRight:AddSlider("FlowSpeed", { Text = "Auto Solve Speed", Default = flow.nodeDelay, Min = 0.01, Max = 0.50, Rounding = 2, Compact = false, Callback = function(Value) flow.nodeDelay = Value end })
 
-local SpeedGroup = Tabs.玩家:AddLeftGroupbox("速度", "bolt")
-local FlightGroup = Tabs.玩家:AddLeftGroupbox("飞行", "plane")
+local SpeedGroup = Tabs.Player:AddLeftGroupbox("Speed", "bolt")
+local FlightGroup = Tabs.Player:AddLeftGroupbox("Flight", "plane")
 local speedEnabled = false
 local speedValue = 16
-SpeedGroup:AddToggle("SpeedToggle", { Text = "启用加速", Default = false, Callback = function(v)
+SpeedGroup:AddToggle("SpeedToggle", { Text = "Enable Speed", Default = false, Callback = function(v)
     speedEnabled = v
     if v then
         task.spawn(function()
@@ -642,7 +653,7 @@ SpeedGroup:AddToggle("SpeedToggle", { Text = "启用加速", Default = false, Ca
         end)
     end
 end })
-SpeedGroup:AddSlider("SpeedValue", { Text = "速度值", Default = 16, Min = 1, Max = 500, Rounding = 0, Callback = function(v) speedValue = v end })
+SpeedGroup:AddSlider("SpeedValue", { Text = "Speed", Default = 16, Min = 1, Max = 500, Rounding = 0, Callback = function(v) speedValue = v end })
 local flightEnabled = false
 local flightSpeed = 50
 local flightLoop = nil
@@ -682,14 +693,14 @@ local function stopFlight()
         if head then head.Anchored = false end
     end
 end
-FlightGroup:AddToggle("FlightToggle", { Text = "启用飞行", Default = false, Callback = function(v)
+FlightGroup:AddToggle("FlightToggle", { Text = "Enable Flight", Default = false, Callback = function(v)
     flightEnabled = v
     if v then startFlight() else stopFlight() end
 end })
-FlightGroup:AddSlider("FlightSpeed", { Text = "飞行速度", Default = 50, Min = 1, Max = 200, Rounding = 0, Callback = function(v) flightSpeed = v end })
-local StaminaTabbox = Tabs.玩家:AddRightTabbox()
-local MVP = StaminaTabbox:AddTab("体力")
-local MVP2 = StaminaTabbox:AddTab("设置")
+FlightGroup:AddSlider("FlightSpeed", { Text = "Flight Speed", Default = 50, Min = 1, Max = 200, Rounding = 0, Callback = function(v) flightSpeed = v end })
+local StaminaTabbox = Tabs.Player:AddRightTabbox()
+local MVP = StaminaTabbox:AddTab("Stamina")
+local MVP2 = StaminaTabbox:AddTab("Settings")
 local SprintingModule = ReplicatedStorage:WaitForChild("Systems"):WaitForChild("Character"):WaitForChild("Game"):WaitForChild("Sprinting")
 local GetModule = function() return require(SprintingModule) end
 local StaminaSettings = { MaxStamina = 100, StaminaGain = 25, StaminaLoss = 10, SprintSpeed = 28, InfiniteGain = 9999 }
@@ -723,28 +734,28 @@ MVP:AddToggle("InfiniteStamina", { Text = "无限体力", Default = false, Callb
         if connection then connection:Disconnect(); connection = nil end
     end
 end })
-MVP:AddToggle("MaxStaminaToggle", { Text = "修改最大体力", Default = false, Callback = function(v) SettingToggles.MaxStamina = v end })
-MVP:AddToggle("StaminaGainToggle", { Text = "修改体力恢复速度", Default = false, Callback = function(v) SettingToggles.StaminaGain = v end })
-MVP:AddToggle("StaminaLossToggle", { Text = "修改体力消耗速度", Default = false, Callback = function(v) SettingToggles.StaminaLoss = v end })
-MVP:AddToggle("SprintSpeedToggle", { Text = "修改冲刺速度", Default = false, Callback = function(v) SettingToggles.SprintSpeed = v end })
-MVP2:AddSlider("MaxStaminaSlider", { Text = "最大体力", Default = 100, Min = 1, Max = 500, Rounding = 0, Callback = function(v)
+MVP:AddToggle("MaxStaminaToggle", { Text = "启用最高耐力上限", Default = false, Callback = function(v) SettingToggles.MaxStamina = v end })
+MVP:AddToggle("StaminaGainToggle", { Text = "Modify Stamina Gain", Default = false, Callback = function(v) SettingToggles.StaminaGain = v end })
+MVP:AddToggle("StaminaLossToggle", { Text = "Modify Stamina Loss", Default = false, Callback = function(v) SettingToggles.StaminaLoss = v end })
+MVP:AddToggle("SprintSpeedToggle", { Text = "Modify Sprint Speed", Default = false, Callback = function(v) SettingToggles.SprintSpeed = v end })
+MVP2:AddSlider("MaxStaminaSlider", { Text = "Max Stamina", Default = 100, Min = 1, Max = 500, Rounding = 0, Callback = function(v)
     StaminaSettings.MaxStamina = v
     if SettingToggles.MaxStamina then GetModule().MaxStamina = v end
 end })
-MVP2:AddSlider("SprintSpeedSlider", { Text = "冲刺速度", Default = 28, Min = 1, Max = 60, Rounding = 0, Callback = function(v)
+MVP2:AddSlider("SprintSpeedSlider", { Text = "Sprint Speed", Default = 28, Min = 1, Max = 60, Rounding = 0, Callback = function(v)
     StaminaSettings.SprintSpeed = v
     if SettingToggles.SprintSpeed then GetModule().SprintSpeed = v end
 end })
-MVP2:AddSlider("StaminaGainSlider", { Text = "体力恢复速度", Default = 25, Min = 0, Max = 120, Rounding = 0, Callback = function(v)
+MVP2:AddSlider("StaminaGainSlider", { Text = "Stamina Gain Speed", Default = 25, Min = 0, Max = 120, Rounding = 0, Callback = function(v)
     StaminaSettings.StaminaGain = v
     if SettingToggles.StaminaGain and not bai.Spr then GetModule().StaminaGain = v end
 end })
-MVP2:AddSlider("StaminaLossSlider", { Text = "体力消耗速度", Default = 10, Min = 0, Max = 100, Rounding = 0, Callback = function(v)
+MVP2:AddSlider("StaminaLossSlider", { Text = "Stamina Loss Speed", Default = 10, Min = 0, Max = 100, Rounding = 0, Callback = function(v)
     StaminaSettings.StaminaLoss = v
     if SettingToggles.StaminaLoss and not bai.Spr then GetModule().StaminaLoss = v end
 end })
 
-local ExtraGroup = Tabs.玩家:AddRightGroupbox("额外", "plus")
+local ExtraGroup = Tabs.Player:AddRightGroupbox("Extra", "plus")
 local deleteFakeNoli = false
 task.spawn(function()
     while true do
@@ -758,7 +769,7 @@ task.spawn(function()
         end
     end
 end)
-ExtraGroup:AddToggle("DeleteFakeNoli", { Text = "删除假Noli", Default = false, Callback = function(v) deleteFakeNoli = v end })
+ExtraGroup:AddToggle("DeleteFakeNoli", { Text = "Delete Fake Noli", Default = false, Callback = function(v) deleteFakeNoli = v end })
 local dashTurnConn = nil
 local function getInputDirection()
     local cf = Workspace.CurrentCamera.CFrame
@@ -791,7 +802,7 @@ end
 local function disableDashTurn()
     if dashTurnConn then dashTurnConn:Disconnect(); dashTurnConn = nil end
 end
-ExtraGroup:AddToggle("C00lkiddDashTurn", { Text = "c00lkidd 冲刺转向", Default = false, Callback = function(v) if v then enableDashTurn() else disableDashTurn() end end })
+ExtraGroup:AddToggle("C00lkiddDashTurn", { Text = "c00lkidd Dash Turn", Default = false, Callback = function(v) if v then enableDashTurn() else disableDashTurn() end end })
 local breakFreeTask = nil
 local anti_breakFree = false
 local function startBreakFree()
@@ -823,7 +834,7 @@ end
 local function stopBreakFree()
     if breakFreeTask then task.cancel(breakFreeTask); breakFreeTask = nil end
 end
-ExtraGroup:AddToggle("AutoBreakFree", { Text = "自动挣脱", Default = false, Callback = function(v)
+ExtraGroup:AddToggle("AutoBreakFree", { Text = "Auto Break Free", Default = false, Callback = function(v)
     anti_breakFree = v
     if v then startBreakFree() else stopBreakFree() end
 end })
@@ -868,7 +879,7 @@ end
 local function stopPullRope()
     if pullRopeTask then task.cancel(pullRopeTask); pullRopeTask = nil end
 end
-ExtraGroup:AddToggle("AutoPullRope", { Text = "自动拉绳", Default = false, Callback = function(v)
+ExtraGroup:AddToggle("AutoPullRope", { Text = "Auto Pull Rope", Default = false, Callback = function(v)
     anti_pullRope = v
     if v then startPullRope() else stopPullRope() end
 end })
@@ -885,7 +896,7 @@ local function enableQTE()
         and ReplicatedStorage.Assets.Killers.Azure.Config:FindFirstChild("cl_WorkaroundModules")
         and ReplicatedStorage.Assets.Killers.Azure.Config.cl_WorkaroundModules:FindFirstChild("cl_ConstructQTE")
     if not BehaviorModule then
-        Library:Notify({ Title = "QTE错误", Description = "未找到QTE模块", Time = 3 })
+        Library:Notify({ Title = "QTE Error", Description = "QTE module not found", Time = 3 })
         return
     end
     local Behavior
@@ -905,11 +916,11 @@ local function enableQTE()
             originalGetHitZoneIndex = value
             hookSlot = slot
             debug.setupvalue(Behavior.new, slot, cheatGetHitZoneIndex)
-            Library:Notify({ Title = "QTE", Description = "已注入自动QTE", Time = 2 })
+            Library:Notify({ Title = "QTE", Description = "Auto QTE hooked", Time = 2 })
             return
         end
     end
-    Library:Notify({ Title = "QTE错误", Description = "在上级值中未找到3参数函数", Time = 3 })
+    Library:Notify({ Title = "QTE Error", Description = "No 3-param func in upvalues", Time = 3 })
 end
 local function disableQTE()
     azureQTEEnabled = false
@@ -932,34 +943,34 @@ local function disableQTE()
     end
 end
 ExtraGroup:AddToggle("AzureAutoQTE", {
-    Text = "Azure自动QTE",
+    Text = "自动Azure偷",
     Default = false,
     Callback = function(val)
         if val then enableQTE() else disableQTE() end
     end
 })
 
-local generalGroup = Tabs.自动瞄准:AddLeftGroupbox("常规瞄准")
-local survivorGroup = Tabs.自动瞄准:AddLeftGroupbox("杀手瞄准")
-local killerGroup = Tabs.自动瞄准:AddRightGroupbox("幸存者瞄准")
+local generalGroup = Tabs.Aimbot:AddLeftGroupbox("General Aim")
+local survivorGroup = Tabs.Aimbot:AddLeftGroupbox("Killer Aim")
+local killerGroup = Tabs.Aimbot:AddRightGroupbox("Survivor Aim")
 local settings = { distance = 100, smoothness = 20, duration = 50, targetPath = "auto", globalSound = false, silentAim = false, janeDoe = false, janeDoeAxe = false, chance = false, dusekkar = false, onex4 = false, cookidd = false, noilStar = false, noilVoid = false, punch = false }
-pcall(function() generalGroup:AddSlider("GAA_Distance", { Text = "瞄准距离", Default = settings.distance, Min = 10, Max = 500, Rounding = 1, Callback = function(v) settings.distance = v end }) end)
-pcall(function() generalGroup:AddSlider("GAA_Smoothness", { Text = "摄像头平滑度", Default = settings.smoothness, Min = 0, Max = 100, Rounding = 1, Callback = function(v) settings.smoothness = v end }) end)
-pcall(function() generalGroup:AddSlider("GAA_Duration", { Text = "锁定持续时间", Default = settings.duration, Min = 1, Max = 200, Rounding = 1, Callback = function(v) settings.duration = v end }) end)
-pcall(function() generalGroup:AddTextbox("GAA_TargetPath", { Text = "目标路径 (留空为自动)", Default = "", Placeholder = "例如 workspace.Players", Callback = function(v) settings.targetPath = (v ~= "" and v) or "auto" end }) end)
-pcall(function() generalGroup:AddToggle("SilentAimToggle", { Text = "静默瞄准 (杀手)", Default = false, Callback = function(v) toggleModule("SilentAim", v) end }) end)
-pcall(function() generalGroup:AddToggle("SoundTriggerToggle", { Text = "声音触发瞄准", Default = false, Callback = function(v) toggleModule("SoundTrigger", v) end }) end)
-pcall(function() survivorGroup:AddToggle("Onex4Toggle", { Text = "1x4瞄准", Default = false, Callback = function(v) toggleModule("1x4", v) end }) end)
-pcall(function() survivorGroup:AddToggle("CookiddToggle", { Text = "C00kidd瞄准 (摄像头)", Default = false, Callback = function(v) toggleModule("C00kidd", v) end }) end)
-pcall(function() survivorGroup:AddToggle("JohnDoeToggle", { Text = "John Doe瞄准 (摄像头)", Default = false, Callback = function(v) toggleModule("JohnDoe", v) end }) end)
-pcall(function() survivorGroup:AddToggle("NosferatuToggle", { Text = "Nosferatu瞄准 (摄像头)", Default = false, Callback = function(v) toggleModule("Nosferatu", v) end }) end)
-pcall(function() survivorGroup:AddToggle("NoilStarToggle", { Text = "Noil 星爆瞄准", Default = false, Callback = function(v) toggleModule("NoilStar", v) end }) end)
-pcall(function() survivorGroup:AddToggle("NoilVoidToggle", { Text = "Noil 虚空冲刺瞄准", Default = false, Callback = function(v) toggleModule("NoilVoid", v) end }) end)
-pcall(function() killerGroup:AddToggle("JaneDoeToggle", { Text = "Jane Doe瞄准", Default = false, Callback = function(v) toggleModule("JaneDoe", v) end }) end)
-pcall(function() killerGroup:AddToggle("JaneDoeAxeToggle", { Text = "Jane Doe斧头瞄准", Default = false, Callback = function(v) toggleModule("JaneDoeAxe", v) end }) end)
-pcall(function() killerGroup:AddToggle("ChanceToggle", { Text = "Chance瞄准", Default = false, Callback = function(v) toggleModule("Chance", v) end }) end)
-pcall(function() killerGroup:AddToggle("DusekkarToggle", { Text = "Dusekkar瞄准 (摄像头)", Default = false, Callback = function(v) toggleModule("Dusekkar", v) end }) end)
-pcall(function() killerGroup:AddToggle("PunchToggle", { Text = "重击瞄准", Default = false, Callback = function(v) toggleModule("Punch", v) end }) end)
+pcall(function() generalGroup:AddSlider("GAA_Distance", { Text = "Aim Distance", Default = settings.distance, Min = 10, Max = 500, Rounding = 1, Callback = function(v) settings.distance = v end }) end)
+pcall(function() generalGroup:AddSlider("GAA_Smoothness", { Text = "Camera Smoothness", Default = settings.smoothness, Min = 0, Max = 100, Rounding = 1, Callback = function(v) settings.smoothness = v end }) end)
+pcall(function() generalGroup:AddSlider("GAA_Duration", { Text = "Lock Duration", Default = settings.duration, Min = 1, Max = 200, Rounding = 1, Callback = function(v) settings.duration = v end }) end)
+pcall(function() generalGroup:AddTextbox("GAA_TargetPath", { Text = "Target Path (leave empty for auto)", Default = "", Placeholder = "e.g. workspace.Players", Callback = function(v) settings.targetPath = (v ~= "" and v) or "auto" end }) end)
+pcall(function() generalGroup:AddToggle("SilentAimToggle", { Text = "Silent Aim (Killer)", Default = false, Callback = function(v) toggleModule("SilentAim", v) end }) end)
+pcall(function() generalGroup:AddToggle("SoundTriggerToggle", { Text = "Sound Trigger Aim", Default = false, Callback = function(v) toggleModule("SoundTrigger", v) end }) end)
+pcall(function() survivorGroup:AddToggle("Onex4Toggle", { Text = "1x4 Aim", Default = false, Callback = function(v) toggleModule("1x4", v) end }) end)
+pcall(function() survivorGroup:AddToggle("CookiddToggle", { Text = "C00kidd Aim (Camera)", Default = false, Callback = function(v) toggleModule("C00kidd", v) end }) end)
+pcall(function() survivorGroup:AddToggle("JohnDoeToggle", { Text = "John Doe Aim (Camera)", Default = false, Callback = function(v) toggleModule("JohnDoe", v) end }) end)
+pcall(function() survivorGroup:AddToggle("NosferatuToggle", { Text = "Nosferatu Aim (Camera)", Default = false, Callback = function(v) toggleModule("Nosferatu", v) end }) end)
+pcall(function() survivorGroup:AddToggle("NoilStarToggle", { Text = "Noil Star Bomb Aim", Default = false, Callback = function(v) toggleModule("NoilStar", v) end }) end)
+pcall(function() survivorGroup:AddToggle("NoilVoidToggle", { Text = "Noil Void Rush Aim", Default = false, Callback = function(v) toggleModule("NoilVoid", v) end }) end)
+pcall(function() killerGroup:AddToggle("JaneDoeToggle", { Text = "Jane Doe Aim", Default = false, Callback = function(v) toggleModule("JaneDoe", v) end }) end)
+pcall(function() killerGroup:AddToggle("JaneDoeAxeToggle", { Text = "Jane Doe Axe Aim", Default = false, Callback = function(v) toggleModule("JaneDoeAxe", v) end }) end)
+pcall(function() killerGroup:AddToggle("ChanceToggle", { Text = "Chance Aim", Default = false, Callback = function(v) toggleModule("Chance", v) end }) end)
+pcall(function() killerGroup:AddToggle("DusekkarToggle", { Text = "Dusekkar Aim (Camera)", Default = false, Callback = function(v) toggleModule("Dusekkar", v) end }) end)
+pcall(function() killerGroup:AddToggle("PunchToggle", { Text = "Punch Aim", Default = false, Callback = function(v) toggleModule("Punch", v) end }) end)
 local function getTargetsFromPath(pathString)
     if pathString == "auto" then return nil end
     local parts = {}
@@ -1449,18 +1460,18 @@ local function DisableAutoBlock()
     isBoxDetecting = false
 end
 
-local BlockLeft = Tabs.格挡:AddLeftGroupbox("自动格挡", "shield")
-BlockLeft:AddToggle("AutoBlockToggle", { Text = "启用自动格挡", Default = false, Callback = function(state)
+local BlockLeft = Tabs.Block:AddLeftGroupbox("Auto Block", "shield")
+BlockLeft:AddToggle("AutoBlockToggle", { Text = "Enable AutoBlock", Default = false, Callback = function(state)
     _G.AutoBlockEnabled = state
     if state then EnableAutoBlock() else DisableAutoBlock() end
 end })
-BlockLeft:AddSlider("HitboxTransparency", { Text = "透明度", Default = 0.5, Min = 0, Max = 1, Rounding = 2, Callback = function(v) _G.HitboxTransparency = v end })
-BlockLeft:AddLabel("命中盒颜色"):AddColorPicker("HitboxColor", { Default = _G.HitboxColor, Title = "命中盒颜色", Callback = function(color) _G.HitboxColor = color end })
-local BlockRight = Tabs.格挡:AddRightGroupbox("命中盒设置", "sliders")
-BlockRight:AddSlider("HitboxSize", { Text = "大小", Default = 1.0, Min = 0.2, Max = 3.0, Rounding = 2, Callback = function(v) _G.HitboxScale = v end })
-BlockRight:AddSlider("HitboxOffset", { Text = "偏移 (Z轴)", Default = -1.4, Min = -10, Max = 0, Rounding = 1, Callback = function(v) _G.HitboxOffset = v end })
-BlockRight:AddSlider("HitboxDuration", { Text = "持续时间", Default = 1.5, Min = 0.1, Max = 5.0, Rounding = 1, Callback = function(v) _G.HitboxDuration = v end })
-BlockRight:AddSlider("BlockDelay", { Text = "格挡延迟", Default = 0, Min = 0, Max = 1, Rounding = 2, Callback = function(v) _G.BlockDelay = v end })
+BlockLeft:AddSlider("HitboxTransparency", { Text = "Transparency", Default = 0.5, Min = 0, Max = 1, Rounding = 2, Callback = function(v) _G.HitboxTransparency = v end })
+BlockLeft:AddLabel("Hitbox Color"):AddColorPicker("HitboxColor", { Default = _G.HitboxColor, Title = "Hitbox Color", Callback = function(color) _G.HitboxColor = color end })
+local BlockRight = Tabs.Block:AddRightGroupbox("Hitbox Settings", "sliders")
+BlockRight:AddSlider("HitboxSize", { Text = "Size", Default = 1.0, Min = 0.2, Max = 3.0, Rounding = 2, Callback = function(v) _G.HitboxScale = v end })
+BlockRight:AddSlider("HitboxOffset", { Text = "Offset (Z)", Default = -1.4, Min = -10, Max = 0, Rounding = 1, Callback = function(v) _G.HitboxOffset = v end })
+BlockRight:AddSlider("HitboxDuration", { Text = "Duration", Default = 1.5, Min = 0.1, Max = 5.0, Rounding = 1, Callback = function(v) _G.HitboxDuration = v end })
+BlockRight:AddSlider("BlockDelay", { Text = "Block Delay", Default = 0, Min = 0, Max = 1, Rounding = 2, Callback = function(v) _G.BlockDelay = v end })
 
 local TARGET_ANIMATION_ID = "100725497418533"
 local DASHSTAB_ANIM_ID = "89448354637442"
@@ -1549,14 +1560,14 @@ local function hookCharacter(character)
 end
 if LP.Character then hookCharacter(LP.Character) end
 LP.CharacterAdded:Connect(hookCharacter)
-local StabLeft = Tabs.背刺:AddLeftGroupbox("背刺", "sword")
-StabLeft:AddToggle("EnableBackstab", { Text = "启用背刺", Default = false, Callback = function(v) stabEnabledBackstab = v end })
-StabLeft:AddToggle("EnableDashstab", { Text = "启用冲刺背刺", Default = false, Callback = function(v) stabEnabledDashstab = v end })
-local StabRight = Tabs.背刺:AddRightGroupbox("设置", "sliders")
-StabRight:AddSlider("BehindStuds", { Text = "背后距离 (格数)", Default = 4, Min = 1, Max = 10, Rounding = 1, Callback = function(v) behindStuds = v end })
-StabRight:AddSlider("BackstabDelay", { Text = "背刺启动延迟", Default = 0.05, Min = 0, Max = 0.5, Rounding = 2, Callback = function(v) backstabDelay = v end })
-StabRight:AddSlider("BackstabDuration", { Text = "背刺持续时间", Default = 0.5, Min = 0.1, Max = 2, Rounding = 2, Callback = function(v) backstabDuration = v end })
-StabRight:AddSlider("DashstabDelay", { Text = "冲刺背刺启动延迟", Default = 0.25, Min = 0, Max = 0.5, Rounding = 2, Callback = function(v) dashstabDelay = v end })
+local StabLeft = Tabs.Stab:AddLeftGroupbox("Backstab", "sword")
+StabLeft:AddToggle("EnableBackstab", { Text = "Enable Backstab", Default = false, Callback = function(v) stabEnabledBackstab = v end })
+StabLeft:AddToggle("EnableDashstab", { Text = "Enable Dashstab", Default = false, Callback = function(v) stabEnabledDashstab = v end })
+local StabRight = Tabs.Stab:AddRightGroupbox("Settings", "sliders")
+StabRight:AddSlider("BehindStuds", { Text = "Behind Studs", Default = 4, Min = 1, Max = 10, Rounding = 1, Callback = function(v) behindStuds = v end })
+StabRight:AddSlider("BackstabDelay", { Text = "Backstab Start Delay", Default = 0.05, Min = 0, Max = 0.5, Rounding = 2, Callback = function(v) backstabDelay = v end })
+StabRight:AddSlider("BackstabDuration", { Text = "Backstab Duration", Default = 0.5, Min = 0.1, Max = 2, Rounding = 2, Callback = function(v) backstabDuration = v end })
+StabRight:AddSlider("DashstabDelay", { Text = "Dashstab Start Delay", Default = 0.25, Min = 0, Max = 0.5, Rounding = 2, Callback = function(v) dashstabDelay = v end })
 
 do
     local Sk8Player = LP
@@ -1794,10 +1805,10 @@ do
         sprayPhase = 0
         sprayBaseCF = nil
     end)
-    local Sk8Tab = Tabs["滑板"]
-    local Sk8Left = Sk8Tab:AddLeftGroupbox("主要", "zap")
-    local Sk8Right = Sk8Tab:AddRightGroupbox("快速喷涂", "brush")
-    Sk8Left:AddToggle("AutoTrick", { Text = "自动技巧", Default = false, Callback = function(state)
+    local Sk8Tab = Tabs["Sk8"]
+    local Sk8Left = Sk8Tab:AddLeftGroupbox("Main", "zap")
+    local Sk8Right = Sk8Tab:AddRightGroupbox("Fast Spray", "brush")
+    Sk8Left:AddToggle("AutoTrick", { Text = "Auto Trick", Default = false, Callback = function(state)
         atEnabled = state
         if state then
             if not atBehaviorFolder then
@@ -1809,18 +1820,18 @@ do
             atStopManager()
         end
     end })
-    Sk8Left:AddToggle("Sk8Control", { Text = "启用滑板控制", Default = false, Callback = function(state)
+    Sk8Left:AddToggle("Sk8Control", { Text = "Enable SK8 Control", Default = false, Callback = function(state)
         sk8ControlEnabled = state
         if not state and sk8ControlActive then sk8StopOverride() end
     end })
-    Sk8Right:AddToggle("FastSpray", { Text = "启用快速喷涂", Default = false, Callback = function(state)
+    Sk8Right:AddToggle("FastSpray", { Text = "Enable Fast Spray", Default = false, Callback = function(state)
         veeFastSpray = state
         if not state then sprayPhase = 0; sprayBaseCF = nil end
     end })
-    Sk8Right:AddSlider("SpraySpeed", { Text = "喷涂速度", Default = 4.5, Min = 0.5, Max = 10, Rounding = 1, Callback = function(val) spraySpeed = val end })
+    Sk8Right:AddSlider("SpraySpeed", { Text = "Spray Speed", Default = 4.5, Min = 0.5, Max = 10, Rounding = 1, Callback = function(val) spraySpeed = val end })
 end
 
-local EmotesGroup = Tabs.动作:AddLeftGroupbox("表情", "smile")
+local EmotesGroup = Tabs.Action:AddLeftGroupbox("Emotes", "smile")
 local svc = { RS = ReplicatedStorage, Run = RunService, TS = game:GetService("TweenService"), Input = UserInputService }
 local lp = LP
 local emState = { emoting = false, track = nil, spd = 16, jump = 50, rotConn = nil }
@@ -1884,15 +1895,15 @@ end
 local emoteNames = {}
 for _, mod in ipairs(emoteModules) do table.insert(emoteNames, mod.Name) end
 local selectedEmote = emoteNames[1] or ""
-EmotesGroup:AddDropdown("SelectedEmote", { Text = "选择表情", Values = emoteNames, Default = selectedEmote, Callback = function(val) selectedEmote = val end })
-EmotesGroup:AddButton("播放表情", function()
+EmotesGroup:AddDropdown("SelectedEmote", { Text = "Select Emote", Values = emoteNames, Default = selectedEmote, Callback = function(val) selectedEmote = val end })
+EmotesGroup:AddButton("Play Emote", function()
     if selectedEmote == "" then return end
     for _, mod in ipairs(emoteModules) do if mod.Name == selectedEmote then emPlay(mod); break end end
 end)
-EmotesGroup:AddButton("停止表情", function() emStop() end)
+EmotesGroup:AddButton("Stop Emote", function() emStop() end)
 lp.CharacterAdded:Connect(function() task.wait(0.5); if emState.emoting then emStop() end end)
 lp.CharacterRemoving:Connect(function() if emState.emoting then emStop() end end)
-local PlayerAnimGroup = Tabs.动作:AddRightGroupbox("玩家动画", "user")
+local PlayerAnimGroup = Tabs.Action:AddRightGroupbox("Player Animation", "user")
 local baseAnimations = {}
 local animationEntries = {}
 local function getAnimId(animValue) return animValue and tostring(animValue) or nil end
@@ -1967,7 +1978,7 @@ buildUniqueList()
 local animEntryNames = {}
 for _, entry in ipairs(animationEntries) do table.insert(animEntryNames, entry.Name) end
 local selectedEntry = animEntryNames[1] or ""
-PlayerAnimGroup:AddDropdown("SelectedEntry", { Text = "选择动画", Values = animEntryNames, Default = selectedEntry, Callback = function(val) selectedEntry = val end })
+PlayerAnimGroup:AddDropdown("SelectedEntry", { Text = "Select Animation", Values = animEntryNames, Default = selectedEntry, Callback = function(val) selectedEntry = val end })
 local currentTracks = {}
 local moveConn = nil
 local function stopAnimations()
@@ -2005,15 +2016,15 @@ local function applyAnimation()
         if newTrack and not newTrack.IsPlaying then newTrack:Play() end
     end)
 end
-PlayerAnimGroup:AddButton("应用动画", applyAnimation)
-PlayerAnimGroup:AddButton("停止动画", function() stopAnimations() end)
-PlayerAnimGroup:AddButton("刷新列表", function() collectBaseAnimations(); buildUniqueList() end)
+PlayerAnimGroup:AddButton("Apply Animation", applyAnimation)
+PlayerAnimGroup:AddButton("Stop Animation", function() stopAnimations() end)
+PlayerAnimGroup:AddButton("Refresh List", function() collectBaseAnimations(); buildUniqueList() end)
 lp.CharacterAdded:Connect(function() task.wait(0.5); if next(currentTracks) then stopAnimations() end end)
 
 do
-    local tabMusic = Tabs["音乐"]
-    local leftGroup = tabMusic:AddLeftGroupbox("LMS音乐", "music")
-    local rightGroup = tabMusic:AddRightGroupbox("预览", "headphones")
+    local tabMusic = Tabs["Music"]
+    local leftGroup = tabMusic:AddLeftGroupbox("LMS Music", "music")
+    local rightGroup = tabMusic:AddRightGroupbox("Preview", "headphones")
     local musicTracks = {
         ["MADE JUST 4 U"] = "https://raw.githubusercontent.com/FixFox550/FixFox/refs/heads/main/IMG_7277.mp3",
         ["Hello"] = "https://raw.githubusercontent.com/FixFox550/FixFox/refs/heads/main/IMG_7280.mp3",
@@ -2153,7 +2164,7 @@ do
         pcall(function()
             local asset = musicFetch(name)
             if not asset then
-                Library:Notify({Title = "预览", Description = "加载歌曲失败", Time = 3})
+                Library:Notify({Title = "Preview", Description = "Failed to load song", Time = 3})
                 return
             end
             if music.previewSound then
@@ -2167,7 +2178,7 @@ do
             sound.Parent = game:GetService("SoundService")
             sound:Play()
             music.previewSound = sound
-            Library:Notify({Title = "预览", Description = "正在播放: " .. name, Time = 2})
+            Library:Notify({Title = "Preview", Description = "Playing: " .. name, Time = 2})
         end)
     end
     local function previewStop()
@@ -2175,10 +2186,10 @@ do
             music.previewSound:Stop()
             music.previewSound:Destroy()
             music.previewSound = nil
-            Library:Notify({Title = "预览", Description = "预览已停止", Time = 2})
+            Library:Notify({Title = "Preview", Description = "Preview stopped", Time = 2})
         end
     end
-    leftGroup:AddToggle("ApplyLMS", { Text = "应用LMS音乐", Default = false, Callback = function(on)
+    leftGroup:AddToggle("ApplyLMS", { Text = "Apply LMS", Default = false, Callback = function(on)
         pcall(function()
             music.on = on
             if on then
@@ -2190,37 +2201,37 @@ do
             end
         end)
     end })
-    leftGroup:AddDropdown("TrackSelect", { Text = "音轨", Values = musicList, Default = music.selected, Callback = function(sel)
+    leftGroup:AddDropdown("TrackSelect", { Text = "Track", Values = musicList, Default = music.selected, Callback = function(sel)
         pcall(function()
             music.selected = type(sel) == "table" and sel[1] or sel
             task.spawn(function() musicFetchAsync(music.selected) end)
         end)
     end })
-    leftGroup:AddButton("预加载LMS", function()
+    leftGroup:AddButton("Preload LMS", function()
         pcall(function()
             for name in pairs(musicTracks) do
                 musicFetchAsync(name)
                 task.wait(0.05)
             end
-            Library:Notify({Title = "音乐", Description = "预加载完成", Time = 2})
+            Library:Notify({Title = "Music", Description = "Preload complete", Time = 2})
         end)
     end)
-    rightGroup:AddButton("预览", function() pcall(function() previewStart(music.selected) end) end)
-    rightGroup:AddButton("停止预览", function() pcall(function() previewStop() end) end)
+    rightGroup:AddButton("Preview", function() pcall(function() previewStart(music.selected) end) end)
+    rightGroup:AddButton("Stop Preview", function() pcall(function() previewStop() end) end)
 end
 
-local ImpersonateGroup = Tabs.杂项:AddLeftGroupbox("冒充", "user")
-local FlipGroupMisc = Tabs.杂项:AddLeftGroupbox("前空翻", "flip")
-local ChatGroupMisc = Tabs.杂项:AddLeftGroupbox("聊天", "message")
-local AntiHiddenGroup = Tabs.杂项:AddRightGroupbox("反隐藏数据", "eye-off")
-local KillerWallGroup = Tabs.杂项:AddRightGroupbox("杀手墙壁", "door")
-local TimerPosGroup = Tabs.杂项:AddRightGroupbox("计时器位置", "clock")
-local CameraGroupMisc = Tabs.杂项:AddRightGroupbox("摄像头", "camera")
-local LightingGroupMisc = Tabs.杂项:AddRightGroupbox("光照", "sun")
+local ImpersonateGroup = Tabs.Misc:AddLeftGroupbox("Impersonate", "user")
+local FlipGroupMisc = Tabs.Misc:AddLeftGroupbox("Front Flip", "flip")
+local ChatGroupMisc = Tabs.Misc:AddLeftGroupbox("Chat", "message")
+local AntiHiddenGroup = Tabs.Misc:AddRightGroupbox("Anti Hidden Stats", "eye-off")
+local KillerWallGroup = Tabs.Misc:AddRightGroupbox("Killer Walls", "door")
+local TimerPosGroup = Tabs.Misc:AddRightGroupbox("Timer Position", "clock")
+local CameraGroupMisc = Tabs.Misc:AddRightGroupbox("Camera", "camera")
+local LightingGroupMisc = Tabs.Misc:AddRightGroupbox("Lighting", "sun")
 local victimName = "Roblox"
-ImpersonateGroup:AddInput("VictimInput", { Default = victimName, Numeric = false, Finished = false, ClearTextOnFocus = true, Text = "玩家用户名", Tooltip = "输入要冒充的玩家名称", Placeholder = "输入受害者名称...", Callback = function(Value) victimName = Value end })
-ImpersonateGroup:AddButton({ Text = "冒充玩家", Func = function()
-    if victimName == "" then Library:Notify({Title = "错误", Description = "请输入受害者名称", Time = 3}); return end
+ImpersonateGroup:AddInput("VictimInput", { Default = victimName, Numeric = false, Finished = false, ClearTextOnFocus = true, Text = "Player Username", Tooltip = "Enter the name of the victim to impersonate", Placeholder = "Enter victim name...", Callback = function(Value) victimName = Value end })
+ImpersonateGroup:AddButton({ Text = "Impersonate Player", Func = function()
+    if victimName == "" then Library:Notify({Title = "Error", Description = "Please enter a victim name", Time = 3}); return end
     pcall(function()
         local HttpService = game:GetService("HttpService")
         local localPlayer = LP
@@ -2230,7 +2241,7 @@ ImpersonateGroup:AddButton({ Text = "冒充玩家", Func = function()
             return nil, nil, nil
         end
         local userId, userName, displayName = getUserIdByUsername(victimName)
-        if not userId then Library:Notify({Title = "错误", Description = "未找到玩家", Time = 3}); return end
+        if not userId then Library:Notify({Title = "Error", Description = "Player not found", Time = 3}); return end
         local function applyCharacterAppearance(character, userId)
             local appearance = Players:GetCharacterAppearanceAsync(userId)
             for i,v in pairs(character:GetChildren()) do if v:IsA("Accessory") or v:IsA("Shirt") or v:IsA("Pants") or v:IsA("BodyColors") then v:Destroy() end end
@@ -2265,9 +2276,9 @@ ImpersonateGroup:AddButton({ Text = "冒充玩家", Func = function()
                 applyCharacterAppearance(character, userId)
             end
         end)
-        Library:Notify({Title = "成功", Description = string.format("已将名称更改为: %s\n并应用了 %s 的外观", displayName, victimName), Time = 3})
+        Library:Notify({Title = "Success", Description = string.format("Changed name to: %s\nand applied %s's outfit", displayName, victimName), Time = 3})
     end)
-end, DoubleClick = false, Tooltip = "点击应用受害者的名称和外观到你的角色" })
+end, DoubleClick = false, Tooltip = "Click to apply victim's name and outfit to your character" })
 local ffEnabled = false
 local jumpHeight = 72
 local jumpDistance = 35
@@ -2309,10 +2320,10 @@ local function toggleFlipButton(v)
         end)
     else if ffConn then ffConn:Disconnect(); ffConn = nil end; if ffBtnFrame then ffBtnFrame:Destroy(); ffBtnFrame = nil end end
 end
-FlipGroupMisc:AddToggle("FlipButtonToggle", { Text = "显示空翻按钮", Default = false, Callback = function(v) toggleFlipButton(v) end })
-FlipGroupMisc:AddSlider("JumpHeight", { Text = "跳跃高度", Default = 72, Min = 20, Max = 200, Rounding = 0, Callback = function(v) jumpHeight = v end })
-FlipGroupMisc:AddSlider("JumpDistance", { Text = "跳跃距离", Default = 35, Min = 10, Max = 100, Rounding = 0, Callback = function(v) jumpDistance = v end })
-ChatGroupMisc:AddToggle("AlwaysShowChat", { Text = "显示聊天", Default = false, Callback = function(state)
+FlipGroupMisc:AddToggle("FlipButtonToggle", { Text = "Show Flip Button", Default = false, Callback = function(v) toggleFlipButton(v) end })
+FlipGroupMisc:AddSlider("JumpHeight", { Text = "Jump Height", Default = 72, Min = 20, Max = 200, Rounding = 0, Callback = function(v) jumpHeight = v end })
+FlipGroupMisc:AddSlider("JumpDistance", { Text = "Jump Distance", Default = 35, Min = 10, Max = 100, Rounding = 0, Callback = function(v) jumpDistance = v end })
+ChatGroupMisc:AddToggle("AlwaysShowChat", { Text = "Show Chat", Default = false, Callback = function(state)
     if state then
         _G.showChat = true
         task.spawn(function() while _G.showChat and task.wait() do local chatConfig = game:GetService("TextChatService"):FindFirstChildOfClass("ChatWindowConfiguration") if chatConfig then chatConfig.Enabled = true end end end)
@@ -2338,29 +2349,29 @@ local function toggleHiddenStats(on)
     for _, p in ipairs(Players:GetPlayers()) do if on then saveOriginals(p); reveal(p) else restore(p) end end
 end
 Players.PlayerAdded:Connect(function(p) if hiddenStatsEnabled then saveOriginals(p); reveal(p) end end)
-AntiHiddenGroup:AddToggle("AntiHiddenStatsToggle", { Text = "反隐藏数据", Default = false, Callback = function(v) hiddenStatsEnabled = v; toggleHiddenStats(v) end })
+AntiHiddenGroup:AddToggle("AntiHiddenStatsToggle", { Text = "Anti Hidden Stats", Default = false, Callback = function(v) hiddenStatsEnabled = v; toggleHiddenStats(v) end })
 local function setKillerWalls(collide)
     for _, v in ipairs(Workspace:GetDescendants()) do if v.Name == "KillerDoors" then for _, wall in ipairs(v:GetChildren()) do if wall:IsA("BasePart") then wall.CanCollide = collide end end end end
 end
-KillerWallGroup:AddToggle("KillerWallsToggle", { Text = "禁用杀手墙壁", Default = false, Callback = function(v) setKillerWalls(not v) end })
+KillerWallGroup:AddToggle("KillerWallsToggle", { Text = "Disable Killer Walls", Default = false, Callback = function(v) setKillerWalls(not v) end })
 local timerX = 0.5
 local function applyTimerPos()
     local rt = LP.PlayerGui:FindFirstChild("RoundTimer"); local m = rt and rt:FindFirstChild("Main")
     if m then m.Position = UDim2.new(timerX, 0, m.Position.Y.Scale, m.Position.Y.Offset) end
 end
 applyTimerPos()
-TimerPosGroup:AddSlider("TimerX", { Text = "计时器X位置", Default = 0.5, Min = 0, Max = 1, Rounding = 2, Callback = function(v) timerX = v; applyTimerPos() end })
+TimerPosGroup:AddSlider("TimerX", { Text = "Timer X Position", Default = 0.5, Min = 0, Max = 1, Rounding = 2, Callback = function(v) timerX = v; applyTimerPos() end })
 LP.CharacterAdded:Connect(function() task.delay(1, applyTimerPos) end)
-CameraGroupMisc:AddToggle("FreeZoom", { Text = "自由缩放", Default = false, Callback = function(v) LP.CameraMaxZoomDistance = v and math.huge or 12 end })
-CameraGroupMisc:AddToggle("CameraNoclip", { Text = "摄像头穿墙", Default = false, Callback = function(v) LP.DevCameraOcclusionMode = Enum.DevCameraOcclusionMode[v and "Invisicam" or "Zoom"] end })
+CameraGroupMisc:AddToggle("FreeZoom", { Text = "Free Zoom", Default = false, Callback = function(v) LP.CameraMaxZoomDistance = v and math.huge or 12 end })
+CameraGroupMisc:AddToggle("CameraNoclip", { Text = "Camera Noclip", Default = false, Callback = function(v) LP.DevCameraOcclusionMode = Enum.DevCameraOcclusionMode[v and "Invisicam" or "Zoom"] end })
 local fovValueMisc = 70
-CameraGroupMisc:AddSlider("FOVSlider", { Text = "视野范围", Default = 70, Min = 70, Max = 120, Rounding = 0, Callback = function(v) fovValueMisc = v; if _G.FOV then Workspace.CurrentCamera.FieldOfView = v end end })
-CameraGroupMisc:AddToggle("FOVToggle", { Text = "启用视野调整", Default = false, Callback = function(v) _G.FOV = v; if v then Workspace.CurrentCamera.FieldOfView = fovValueMisc else Workspace.CurrentCamera.FieldOfView = 70 end end })
+CameraGroupMisc:AddSlider("FOVSlider", { Text = "Field of View", Default = 70, Min = 70, Max = 120, Rounding = 0, Callback = function(v) fovValueMisc = v; if _G.FOV then Workspace.CurrentCamera.FieldOfView = v end end })
+CameraGroupMisc:AddToggle("FOVToggle", { Text = "Enable FOV", Default = false, Callback = function(v) _G.FOV = v; if v then Workspace.CurrentCamera.FieldOfView = fovValueMisc else Workspace.CurrentCamera.FieldOfView = 70 end end })
 task.spawn(function() while true do if _G.FOV then Workspace.CurrentCamera.FieldOfView = fovValueMisc end task.wait() end end)
-LightingGroupMisc:AddSlider("Brightness", { Text = "亮度", Default = 0, Min = 0, Max = 3, Rounding = 1, Callback = function(v) _G.Brightness = v; if _G.Fullbright then Lighting.Brightness = v end end })
-LightingGroupMisc:AddToggle("NoShadows", { Text = "无阴影", Default = false, Callback = function(v) _G.GlobalShadows = v; if _G.Fullbright then Lighting.GlobalShadows = not v end end })
-LightingGroupMisc:AddToggle("NoFog", { Text = "无雾", Default = false, Callback = function(v) _G.NoFog = v end })
-LightingGroupMisc:AddToggle("EnableLighting", { Text = "启用光照", Default = false, Callback = function(v)
+LightingGroupMisc:AddSlider("Brightness", { Text = "Brightness", Default = 0, Min = 0, Max = 3, Rounding = 1, Callback = function(v) _G.Brightness = v; if _G.Fullbright then Lighting.Brightness = v end end })
+LightingGroupMisc:AddToggle("NoShadows", { Text = "No Shadows", Default = false, Callback = function(v) _G.GlobalShadows = v; if _G.Fullbright then Lighting.GlobalShadows = not v end end })
+LightingGroupMisc:AddToggle("NoFog", { Text = "No Fog", Default = false, Callback = function(v) _G.NoFog = v end })
+LightingGroupMisc:AddToggle("EnableLighting", { Text = "Enable Lighting", Default = false, Callback = function(v)
     _G.Fullbright = v
     if not v then
         Lighting.OutdoorAmbient = Color3.fromRGB(55, 55, 55); Lighting.Brightness = 0; Lighting.GlobalShadows = true
@@ -2382,14 +2393,14 @@ task.spawn(function()
     end
 end)
 
-local MenuGroup = Tabs["界面设置"]:AddLeftGroupbox("菜单", "wrench")
-MenuGroup:AddToggle("KeybindMenuOpen", { Default = Library.KeybindFrame.Visible, Text = "打开快捷键菜单", Callback = function(value) Library.KeybindFrame.Visible = value end })
-MenuGroup:AddToggle("ShowCustomCursor", { Text = "自定义光标", Default = true, Callback = function(Value) Library.ShowCustomCursor = Value end })
-MenuGroup:AddDropdown("NotificationSide", { Values = { "左侧", "右侧" }, Default = "右侧", Text = "通知位置", Callback = function(Value) Library:SetNotifySide(Value) end })
-MenuGroup:AddDropdown("DPIDropdown", { Values = { "50%", "75%", "100%", "125%", "150%", "175%", "200%" }, Default = "100%", Text = "DPI缩放", Callback = function(Value) Value = Value:gsub("%%", ""); local DPI = tonumber(Value); Library:SetDPIScale(DPI) end })
+local MenuGroup = Tabs["UI Settings"]:AddLeftGroupbox("Menu", "wrench")
+MenuGroup:AddToggle("KeybindMenuOpen", { Default = Library.KeybindFrame.Visible, Text = "Open Keybind Menu", Callback = function(value) Library.KeybindFrame.Visible = value end })
+MenuGroup:AddToggle("ShowCustomCursor", { Text = "Custom Cursor", Default = true, Callback = function(Value) Library.ShowCustomCursor = Value end })
+MenuGroup:AddDropdown("NotificationSide", { Values = { "Left", "Right" }, Default = "Right", Text = "Notification Side", Callback = function(Value) Library:SetNotifySide(Value) end })
+MenuGroup:AddDropdown("DPIDropdown", { Values = { "50%", "75%", "100%", "125%", "150%", "175%", "200%" }, Default = "100%", Text = "DPI Scale", Callback = function(Value) Value = Value:gsub("%%", ""); local DPI = tonumber(Value); Library:SetDPIScale(DPI) end })
 MenuGroup:AddDivider()
-MenuGroup:AddLabel("菜单快捷键"):AddKeyPicker("MenuKeybind", { Default = "RightShift", NoUI = true, Text = "菜单快捷键" })
-MenuGroup:AddButton("卸载", function() Library:Unload() end)
+MenuGroup:AddLabel("Menu bind"):AddKeyPicker("MenuKeybind", { Default = "RightShift", NoUI = true, Text = "Menu keybind" })
+MenuGroup:AddButton("Unload", function() Library:Unload() end)
 Library.ToggleKeybind = Options.MenuKeybind
 ThemeManager:SetLibrary(Library)
 ThemeManager:SetDefaultTheme({ BackgroundColor = Color3.fromRGB(26, 26, 46), AccentColor = Color3.fromRGB(137, 180, 250), OutlineColor = Color3.fromRGB(49, 50, 68), FontColor = Color3.fromRGB(205, 214, 244), FontFace = Enum.Font.Jura })
@@ -2399,10 +2410,10 @@ SaveManager:SetIgnoreIndexes({ "MenuKeybind" })
 ThemeManager:SetFolder("MyScriptHub")
 SaveManager:SetFolder("MyScriptHub/specific-game")
 SaveManager:SetSubFolder("specific-place")
-SaveManager:BuildConfigSection(Tabs["界面设置"])
-ThemeManager:ApplyToTab(Tabs["界面设置"])
+SaveManager:BuildConfigSection(Tabs["UI Settings"])
+ThemeManager:ApplyToTab(Tabs["UI Settings"])
 SaveManager:LoadAutoloadConfig()
-Library:OnUnload(function() print("已卸载!") end)
+Library:OnUnload(function() print("Unloaded!") end)
 
 
 local cloneref = (cloneref or clonereference or function(instance: any)
@@ -6554,21 +6565,21 @@ do
                 end)
             end
 
-            CreateButton("复制颜色", function()
+            CreateButton("Copy color", function()
                 Library.CopiedColor = { ColorPicker.Value, ColorPicker.Transparency }
             end)
 
             ColorPicker.SetValueRGB = function(...) end --// make luau lsp shut up
-            CreateButton("粘贴颜色", function()
+            CreateButton("Paste color", function()
                 ColorPicker:SetValueRGB(Library.CopiedColor[1], Library.CopiedColor[2])
             end)
 
             if setclipboard then
-                CreateButton("复制十六进制", function()
+                CreateButton("Copy Hex", function()
                     setclipboard(tostring(ColorPicker.Value:ToHex()))
                 end)
 
-                CreateButton("复制RGB", function()
+                CreateButton("Copy RGB", function()
                     setclipboard(table.concat({
                         math.floor(ColorPicker.Value.R * 255),
                         math.floor(ColorPicker.Value.G * 255),
@@ -7210,7 +7221,7 @@ do
                 if Button.DoubleClick then
                     Button.Locked = true
 
-                    Button.Base.Text = "你确定吗?"
+                    Button.Base.Text = "Are you sure?"
                     Button.Base.TextColor3 = Library.Scheme.AccentColor
                     Library.Registry[Button.Base].TextColor3 = "AccentColor"
 
@@ -8224,7 +8235,7 @@ do
             Min = Info.Min,
             Max = Info.Max,
 
-            Prefix = Info.Pre,
+            Prefix = Info.Prefix,
             Suffix = Info.Suffix,
             Compact = Info.Compact,
             Rounding = Info.Rounding,
@@ -8765,7 +8776,7 @@ do
         if Info.Searchable then
             SearchBox = New("TextBox", {
                 BackgroundTransparency = 1,
-                PlaceholderText = "搜索...",
+                PlaceholderText = "Search...",
                 Position = UDim2.fromOffset(-8, 0),
                 Size = UDim2.new(1, -12, 1, 0),
                 TextSize = 14,
@@ -10869,7 +10880,7 @@ function Library:CreateWindow(WindowInfo)
     local LastExpandedWidth = InitialLeftWidth
 
     do
-        Library.KeybindFrame, Library.KeybindContainer = Library:AddDraggableMenu("快捷键")
+        Library.KeybindFrame, Library.KeybindContainer = Library:AddDraggableMenu("Keybinds")
         Library.KeybindFrame.AnchorPoint = Vector2.new(0, 0.5)
         Library.KeybindFrame.Position = UDim2.new(0, 6, 0.5, 0)
         Library.KeybindFrame.Visible = false
@@ -11063,7 +11074,7 @@ function Library:CreateWindow(WindowInfo)
 
         SearchBox = New("TextBox", {
             BackgroundColor3 = "MainColor",
-            PlaceholderText = "搜索",
+            PlaceholderText = "Search",
             Size = WindowInfo.SearchbarSize,
             TextScaled = true,
             Visible = not (WindowInfo.DisableSearch or false),
@@ -11729,7 +11740,7 @@ function Library:CreateWindow(WindowInfo)
                 IsNormal = false,
                 LockSize = false,
                 Visible = false,
-                Title = "警告",
+                Title = "WARNING",
                 Text = "",
             },
 
@@ -12735,7 +12746,7 @@ function Library:CreateWindow(WindowInfo)
 
             local Box = New("TextBox", {
                 BackgroundColor3 = "MainColor",
-                PlaceholderText = "按键",
+                PlaceholderText = "Key",
                 Size = UDim2.new(1, -71, 1, 0),
                 TextSize = 14,
                 TextXAlignment = Enum.TextXAlignment.Left,
@@ -12763,7 +12774,7 @@ function Library:CreateWindow(WindowInfo)
                 BackgroundColor3 = "MainColor",
                 Position = UDim2.fromScale(1, 0),
                 Size = UDim2.new(0, 63, 1, 0),
-                Text = "执行",
+                Text = "Execute",
                 TextSize = 14,
                 Parent = Holder,
             })
@@ -13619,13 +13630,13 @@ function Library:CreateWindow(WindowInfo)
     end
 
     if Library.IsMobile then
-        local ToggleButton = Library:AddDraggableButton("切换", function()
+        local ToggleButton = Library:AddDraggableButton("Toggle", function()
             Library:Toggle()
         end, true, true)
 
-        local LockButton = Library:AddDraggableButton("锁定", function(self)
+        local LockButton = Library:AddDraggableButton("Lock", function(self)
             Library.CantDragForced = not Library.CantDragForced
-            self:SetText(Library.CantDragForced and "解锁" or "锁定")
+            self:SetText(Library.CantDragForced and "Unlock" or "Lock")
         end, true, true)
 
         if WindowInfo.MobileButtonsSide == "Right" then
@@ -14004,7 +14015,7 @@ function Library:CreateLoading(LoadingInfo)
         BackgroundTransparency = 1,
         Position = UDim2.fromOffset(15, 15),
         Size = UDim2.new(1, -30, 0, 18),
-        Text = "错误",
+        Text = "Error",
         TextColor3 = "RedColor",
         TextSize = 18,
         TextXAlignment = Enum.TextXAlignment.Left,
@@ -14015,7 +14026,7 @@ function Library:CreateLoading(LoadingInfo)
         BackgroundTransparency = 1,
         Position = UDim2.fromOffset(15, 39),
         Size = UDim2.new(1, -30, 1, -90),
-        Text = "错误信息",
+        Text = "Error Message",
         TextSize = 14,
         TextTransparency = 0.2,
         TextWrapped = true,
@@ -14571,7 +14582,7 @@ local HttpService: HttpService = cloneref(game:GetService("HttpService"))
 local isfolder, isfile, listfiles = isfolder, isfile, listfiles
 
 if typeof(clonefunction) == "function" then
-    -- 修复 is_____ 函数，这些函数只应返回布尔值，不应报错。
+    -- Fix is_____ functions for shitsploits, those functions should never error, only return a boolean.
 
     local
         isfolder_copy,
@@ -14610,7 +14621,7 @@ local ThemeManager = {
     DefaultThemeName = nil,
 
     BuiltInThemes = {
-        ["默认"] = {
+        ["Default"] = {
             1,
             { FontColor = "ffffff", MainColor = "191919", AccentColor = "7d55ff", BackgroundColor = "0f0f0f", OutlineColor = "282828", BackgroundImage = "" },
         },
@@ -14689,7 +14700,7 @@ function ThemeManager:SetLibrary(Library)
     ThemeManager.Library = Library
 end
 
---// 辅助函数 \\--
+--// Helpers \\--
 local function Trim(Text: string)
     return Text:match("^%s*(.-)%s*$")
 end
@@ -14706,7 +14717,7 @@ local function IsValidFolderPath(Name: string): boolean
     )
 end
 
---// 文件夹辅助函数 \\--
+--// Folder helper \\--
 local function SplitPath(Path: string): {string}
 	local Result = {}
 	local Current = ""
@@ -14729,7 +14740,7 @@ end
 
 local GetCurrentThemesPath = GetFolderPath
 
---// 文件辅助函数 \\--
+--// Files helper \\--
 local function GetThemePath(ThemeName: string): false | string
     local CurrentThemesPath = GetCurrentThemesPath()
     return if CurrentThemesPath == false then false else string.format("%s/%s.json", CurrentThemesPath, ThemeName)
@@ -14749,7 +14760,7 @@ local function GetDefaultThemePath(): false | string
     return if CurrentThemesPath == false then false else string.format("%s/default.txt", CurrentThemesPath)
 end
 
---// 文件夹 \\--
+--// Folders \\--
 function ThemeManager:GetPaths(): {string}
     local FolderPath = GetFolderPath()
     return if FolderPath == false then {} else SplitPath(FolderPath)
@@ -14781,13 +14792,13 @@ function ThemeManager:CheckFolderTree()
 end
 
 function ThemeManager:SetFolder(Folder: string)
-    assert(IsValidFolderPath(Folder), "无效路径")
+    assert(IsValidFolderPath(Folder), "Invalid path provided")
 
     ThemeManager.Folder = Folder
     ThemeManager:BuildFolderTree()
 end
 
---// 主题管理 \\--
+--// Theme Management \\--
 function ThemeManager:ReloadCustomThemes()
     local SettingsPath = GetCurrentThemesPath()
     if SettingsPath == false then
@@ -14796,7 +14807,7 @@ function ThemeManager:ReloadCustomThemes()
 
     local SuccessList, Files = pcall(listfiles, SettingsPath)
     if not (SuccessList and typeof(Files) == "table") then
-        ThemeManager.Library:Notify(string.format("加载主题列表失败: %s", tostring(Files)))
+        ThemeManager.Library:Notify(string.format("Failed to load theme list: %s", tostring(Files)))
         return {}
     end
 
@@ -14840,16 +14851,16 @@ end
 
 function ThemeManager:SaveCustomTheme(ThemeName: string): any
     if IsStringEmpty(ThemeName) then
-        return false, "无效的主题名称"
+        return false, "Invalid theme name provided"
     end
 
     if string.lower(ThemeName) == "default" then
-        return false, "无效的主题名称"
+        return false, "Invalid theme name provided"
     end
 
     local ThemePath = GetThemePath(ThemeName)
     if ThemePath == false then
-        return false, "无效的主题名称"
+        return false, "Invalid theme name provided"
     end
 
     ThemeManager:CheckFolderTree()
@@ -14866,12 +14877,12 @@ function ThemeManager:SaveCustomTheme(ThemeName: string): any
 
     local SuccessEncode, EncodedData = pcall(HttpService.JSONEncode, HttpService, ThemeData)
     if not SuccessEncode then
-        return false, "数据编码失败"
+        return false, "Failed to encode data"
     end
 
     local SuccessWrite, ErrorMessage = pcall(writefile, ThemePath, EncodedData)
     if not SuccessWrite then
-        return false, "写入主题文件失败: " .. tostring(ErrorMessage)
+        return false, "Failed to write theme file: " .. tostring(ErrorMessage)
     end
 
     return true
@@ -14879,17 +14890,17 @@ end
 
 function ThemeManager:Delete(ThemeName: string): (boolean | string?)
     if IsStringEmpty(ThemeName) then
-        return false, "未选择主题"
+        return false, "No theme is selected"
     end
 
     local ThemePath = GetThemePath(ThemeName)
     if ThemePath == false or not isfile(ThemePath) then
-        return false, "主题文件不存在"
+        return false, "Theme file does not exist"
     end
 
     local SuccessDelete, ErrorMessage = pcall(delfile, ThemePath)
     if not SuccessDelete then
-        return false, "删除主题文件失败: " .. tostring(ErrorMessage)
+        return false, "Failed to delete theme file: " .. tostring(ErrorMessage)
     end
 
     if ThemeName == ThemeManager.DefaultThemeName then
@@ -14899,17 +14910,17 @@ function ThemeManager:Delete(ThemeName: string): (boolean | string?)
     return true
 end
 
---// 默认主题 \\--
+--// Default Theme \\--
 function ThemeManager:GetDefaultTheme(): (string, boolean, string?)
     ThemeManager:CheckFolderTree()
 
     local DefaultThemePath = GetDefaultThemePath()
     if DefaultThemePath == false then
-        return "none", false, "无效路径"
+        return "none", false, "Invalid path provided"
     end
 
     if not isfile(DefaultThemePath) then
-        return "none", false, "未设置默认主题"
+        return "none", false, "Default theme is not set"
     end
 
     local SuccessRead, DefaultThemeName = pcall(readfile, DefaultThemePath)
@@ -14919,7 +14930,7 @@ function ThemeManager:GetDefaultTheme(): (string, boolean, string?)
 
     local ConfigExists = DoesThemeExist(DefaultThemeName, true)
     if not ConfigExists then
-        return "none", false, "主题文件未找到"
+        return "none", false, "Theme file not found"
     end
 
     ThemeManager.DefaultThemeName = DefaultThemeName
@@ -14927,11 +14938,11 @@ function ThemeManager:GetDefaultTheme(): (string, boolean, string?)
 end
 
 function ThemeManager:SetDefaultTheme(Theme: any)
-    assert(ThemeManager.Library, "未设置Library，请先调用 ThemeManager:SetLibrary(Library)")
-    assert(not ThemeManager.AppliedToTab, "在将ThemeManager应用到标签页后不能设置默认主题！")
+    assert(ThemeManager.Library, "Library is not set, call ThemeManager:SetLibrary(Library) first.")
+    assert(not ThemeManager.AppliedToTab, "Cannot set default theme after applying ThemeManager to a tab!")
 
     local Library = ThemeManager.Library
-    local DefaultThemeData = ThemeManager.BuiltInThemes["默认"][2]
+    local DefaultThemeData = ThemeManager.BuiltInThemes["Default"][2]
 
     local LibraryScheme = {}
     local FinalTheme = {}
@@ -14955,7 +14966,7 @@ function ThemeManager:SetDefaultTheme(Theme: any)
         end
     end
 
-    --// 字体
+    --// Font
     local FontFace = Theme["FontFace"]
     local FontFaceType = typeof(FontFace)
     
@@ -14972,32 +14983,32 @@ function ThemeManager:SetDefaultTheme(Theme: any)
         FinalTheme.FontFace = "Code"
     end
 
-    --// 默认配色方案颜色
+    --// Default Scheme Colors
     for _, DefaultSchemeColor in { "RedColor", "DestructiveColor", "DarkColor", "WhiteColor" } do
         LibraryScheme[DefaultSchemeColor] = Library.Scheme[DefaultSchemeColor]
     end
 
-    --// 应用
+    --// Apply
     Library.Scheme = LibraryScheme
-    ThemeManager.BuiltInThemes["默认"] = { 1, FinalTheme }
+    ThemeManager.BuiltInThemes["Default"] = { 1, FinalTheme }
 
     Library:UpdateColorsUsingRegistry()
 end
 
 function ThemeManager:SaveDefault(ThemeName: string): (boolean, string?)
     if IsStringEmpty(ThemeName) then
-        return false, "未选择主题"
+        return false, "No theme is selected"
     end
 
     ThemeManager:CheckFolderTree()
 
     local DefaultThemePath = GetDefaultThemePath()
     if DefaultThemePath == false then
-        return false, "无效路径"
+        return false, "Invalid path provided"
     end
 
     if not DoesThemeExist(ThemeName, true) then
-        return false, "主题不存在"
+        return false, "Theme does not exist"
     end
 
     local SuccessWrite, ErrorMessage = pcall(writefile, DefaultThemePath, ThemeName)
@@ -15012,8 +15023,8 @@ end
 function ThemeManager:LoadDefault()
     local ThemeName, Success, FetchErrorMessage = ThemeManager:GetDefaultTheme()
     if not Success or FetchErrorMessage then
-        if FetchErrorMessage ~= "未设置默认主题" then
-            ThemeManager.Library:Notify(string.format("应用默认主题失败: %s", FetchErrorMessage))
+        if FetchErrorMessage ~= "Default theme is not set" then
+            ThemeManager.Library:Notify(string.format("Failed to apply default theme: %s", FetchErrorMessage))
         end
 
         return
@@ -15026,11 +15037,11 @@ function ThemeManager:LoadDefault()
 
     local SuccessLoad, LoadErrorMessage = ThemeManager:ApplyTheme(ThemeName)
     if not SuccessLoad then
-        ThemeManager.Library:Notify(string.format("应用默认主题失败: %s", LoadErrorMessage))
+        ThemeManager.Library:Notify(string.format("Failed to apply default theme: %s", LoadErrorMessage))
         return
     end
 
-    ThemeManager.Library:Notify(string.format("已成功应用默认主题 %q", ThemeName))
+    ThemeManager.Library:Notify(string.format("Successfully applied default theme %q", ThemeName))
 end
 
 function ThemeManager:DeleteDefaultTheme(): (boolean, string?)
@@ -15038,11 +15049,11 @@ function ThemeManager:DeleteDefaultTheme(): (boolean, string?)
 
     local DefaultThemePath = GetDefaultThemePath()
     if DefaultThemePath == false then
-        return false, "无效路径"
+        return false, "Invalid path provided"
     end
 
     if not isfile(DefaultThemePath) then
-        return false, "未设置默认主题"
+        return false, "Default theme is not set"
     end
 
     local SuccessDelete, ErrorMessage = pcall(delfile, DefaultThemePath)
@@ -15054,7 +15065,7 @@ function ThemeManager:DeleteDefaultTheme(): (boolean, string?)
     return true
 end
 
---// 应用主题 \\--
+--// Apply Theme \\--
 function ThemeManager:ThemeUpdate()
     local Library = ThemeManager.Library
 
@@ -15070,14 +15081,14 @@ end
 
 function ThemeManager:ApplyTheme(ThemeName: string)
     if IsStringEmpty(ThemeName) then
-        return false, "未选择主题"
+        return false, "No theme is selected"
     end
 
     local CustomThemeData = ThemeManager:GetCustomTheme(ThemeName)
     local Data = CustomThemeData or ThemeManager.BuiltInThemes[ThemeName]
     
     if not Data then
-        return false, "主题未找到"
+        return false, "Theme not found"
     end
     
     local Library = ThemeManager.Library
@@ -15133,8 +15144,8 @@ local function ShowDialog(
         AutoDismiss = false,
 
         FooterButtons = {
-            取消 = {
-                Title = "取消",
+            Cancel = {
+                Title = "Cancel",
                 Variant = "Ghost",
                 Order = 1,
                 Callback = function(Dialog)
@@ -15142,7 +15153,7 @@ local function ShowDialog(
                 end
             },
 
-            确认 = {
+            DestructiveAction = {
                 Title = DestructiveText,
                 Variant = "Destructive",
                 Order = 2,
@@ -15156,7 +15167,7 @@ local function ShowDialog(
 end
 
 function ThemeManager:CreateThemeManager(Themesbox: any)
-    assert(ThemeManager.Library, "未设置Library，请先调用 ThemeManager:SetLibrary(Library)")
+    assert(ThemeManager.Library, "Library is not set, call ThemeManager:SetLibrary(Library) first.")
 
     local BuiltInThemesNames = {}
     for Name, _ThemeData in ThemeManager.BuiltInThemes do
@@ -15174,7 +15185,7 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
     local function RefreshDefaultThemeLabel()
         local DefaultThemeName, _Success, _ErrorMessage = ThemeManager:GetDefaultTheme()
 
-        DefaultThemeLabel:SetText(string.format("当前默认主题: %s", DefaultThemeName))
+        DefaultThemeLabel:SetText(string.format("Current default theme: %s", DefaultThemeName))
         if CustomThemeList then RefreshList() end
     end
 
@@ -15190,14 +15201,14 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
         return ThemeManager.Library.Options[SchemeIndex]
     end
 
-    local BackgroundColor = CreateColorOption("背景颜色", "BackgroundColor")
-    local MainColor = CreateColorOption("主色", "MainColor")
-    local AccentColor = CreateColorOption("强调色", "AccentColor")
-    local OutlineColor = CreateColorOption("边框颜色", "OutlineColor")
-    local FontColor = CreateColorOption("字体颜色", "FontColor")
+    local BackgroundColor = CreateColorOption("Background color", "BackgroundColor")
+    local MainColor = CreateColorOption("Main color", "MainColor")
+    local AccentColor = CreateColorOption("Accent color", "AccentColor")
+    local OutlineColor = CreateColorOption("Outline color", "OutlineColor")
+    local FontColor = CreateColorOption("Font color", "FontColor")
     
     Themesbox:AddDropdown("FontFace", {
-        Text = "字体",
+        Text = "Font Face",
         Default = "Code",
         
         Values = { "BuilderSans", "Code", "Fantasy", "Gotham", "Jura", "Roboto", "RobotoMono", "SourceSans" },
@@ -15206,7 +15217,7 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
     })
     
     Themesbox:AddInput("BackgroundImage", { 
-        Text = "背景图片",
+        Text = "Background Image",
 
         Default = "",
         Finished = true,
@@ -15217,51 +15228,51 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
     Themesbox:AddDivider()
 
     Themesbox:AddDropdown("ThemeManager_ThemeList", { 
-        Text = "主题列表", 
+        Text = "Theme list", 
 
         Values = BuiltInThemesNames,
         AllowNull = true,
         Multi = false,
 
         FormatDisplayValue = function(Value: any)
-            if Value ~= "默认" and Value == ThemeManager.DefaultThemeName then
-                return string.format("%s (默认)", Value)
+            if Value ~= "Default" and Value == ThemeManager.DefaultThemeName then
+                return string.format("%s (default)", Value)
             end
 
             return Value
         end,
         FormatListValue = function(Value: any)
-            if Value ~= "默认" and Value == ThemeManager.DefaultThemeName then
-                return string.format("%s (默认)", Value)
+            if Value ~= "Default" and Value == ThemeManager.DefaultThemeName then
+                return string.format("%s (default)", Value)
             end
 
             return Value
         end
     })
 
-    Themesbox:AddButton("设为默认", function()
+    Themesbox:AddButton("Set as default", function()
         local ThemeName = ThemeList.Value
         ThemeManager:SaveDefault(ThemeName)
 
-        ThemeManager.Library:Notify(string.format("已将默认主题设置为 %q", ThemeName))
+        ThemeManager.Library:Notify(string.format("Successfully set default theme to %q", ThemeName))
         RefreshDefaultThemeLabel()
     end)
 
     Themesbox:AddDivider()
 
     CustomThemeName = Themesbox:AddInput("ThemeManager_CustomThemeName", { 
-        Text = "自定义主题名称" 
+        Text = "Custom theme name" 
     })
 
-    Themesbox:AddButton("创建主题", function()
+    Themesbox:AddButton("Create theme", function()
         local Name = CustomThemeName.Value
         if IsStringEmpty(Name) then
-            ThemeManager.Library:Notify("主题名称不能为空。")
+            ThemeManager.Library:Notify("Theme name cannot be empty.")
             return
         end
 
         if string.lower(Name) == "default" then
-            ThemeManager.Library:Notify("无效的主题名称。")
+            ThemeManager.Library:Notify("Invalid theme name provided.")
             return
         end
 
@@ -15271,18 +15282,18 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
             end,
 
             "ThemeManager_CreateTheme",
-            "主题已存在",
-            string.format("名为 %q 的自定义主题已存在。覆盖它将会用您当前的颜色替换它。", Name),
+            "Theme already exists",
+            string.format("A custom theme named %q already exists. Overwriting it will replace it with your current colors.", Name),
 
-            "覆盖",
+            "Overwrite",
             function()
                 local Success, ErrorMessage = ThemeManager:SaveCustomTheme(Name)
                 if not Success then
-                    ThemeManager.Library:Notify(string.format("创建主题 %q 失败: %s", Name, ErrorMessage))
+                    ThemeManager.Library:Notify(string.format("Failed to create theme %q: %s", Name, ErrorMessage))
                     return
                 end
 
-                ThemeManager.Library:Notify(string.format("成功创建主题 %q", Name))
+                ThemeManager.Library:Notify(string.format("Successfully created theme %q", Name))
                 RefreshList()
             end
         )
@@ -15291,7 +15302,7 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
     Themesbox:AddDivider()
 
     CustomThemeList = Themesbox:AddDropdown("ThemeManager_CustomThemeList", { 
-        Text = "自定义主题",
+        Text = "Custom themes",
 
         Values = ThemeManager:ReloadCustomThemes(), 
         AllowNull = true,
@@ -15299,35 +15310,35 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
 
         FormatDisplayValue = function(Value: any)
             if Value == ThemeManager.DefaultThemeName then
-                return string.format("%s (默认)", Value)
+                return string.format("%s (default)", Value)
             end
 
             return Value
         end,
         FormatListValue = function(Value: any)
             if Value == ThemeManager.DefaultThemeName then
-                return string.format("%s (默认)", Value)
+                return string.format("%s (default)", Value)
             end
 
             return Value
         end
     })
 
-    Themesbox:AddButton("加载主题", function()
+    Themesbox:AddButton("Load theme", function()
         local Name = CustomThemeList.Value
         if IsStringEmpty(Name) then
-            ThemeManager.Library:Notify("请先选择一个主题。")
+            ThemeManager.Library:Notify("Please select a theme first.")
             return
         end
 
         ThemeManager:ApplyTheme(Name)
-        ThemeManager.Library:Notify(string.format("成功加载主题 %q", Name))
+        ThemeManager.Library:Notify(string.format("Successfully loaded theme %q", Name))
     end)
 
-    Themesbox:AddButton("覆盖主题", function()
+    Themesbox:AddButton("Overwrite theme", function()
         local Name = CustomThemeList.Value
         if IsStringEmpty(Name) then
-            ThemeManager.Library:Notify("请先选择一个主题。")
+            ThemeManager.Library:Notify("Please select a theme first.")
             return
         end
 
@@ -15337,21 +15348,21 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
             end,
 
             "ThemeManager_OverwriteTheme",
-            "覆盖主题",
-            string.format("您确定要用您当前的颜色覆盖 %q 吗？此操作无法撤销。", Name),
+            "Overwrite theme",
+            string.format("Are you sure you want to overwrite %q with your current colors? This cannot be undone.", Name),
 
-            "覆盖",
+            "Overwrite",
             function()
                 ThemeManager:SaveCustomTheme(Name)
-                ThemeManager.Library:Notify(string.format("成功覆盖主题 %q", Name))
+                ThemeManager.Library:Notify(string.format("Successfully overwrote theme %q", Name))
             end
         )
     end)
 
-    Themesbox:AddButton("删除主题", function()
+    Themesbox:AddButton("Delete theme", function()
         local Name = CustomThemeList.Value
         if IsStringEmpty(Name) then
-            ThemeManager.Library:Notify("请先选择一个主题。")
+            ThemeManager.Library:Notify("Please select a theme first.")
             return
         end
 
@@ -15361,64 +15372,64 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
             end,
 
             "ThemeManager_DeleteTheme",
-            "删除主题",
-            string.format("您确定要删除 %q 吗？此操作无法撤销。", Name),
+            "Delete theme",
+            string.format("Are you sure you want to delete %q? This cannot be undone.", Name),
             
-            "删除",
+            "Delete",
             function()
                 local Success, ErrorMessage = ThemeManager:Delete(Name)
                 if not Success then
-                    ThemeManager.Library:Notify(string.format("删除主题失败: %s", ErrorMessage))
+                    ThemeManager.Library:Notify(string.format("Failed to delete theme: %s", ErrorMessage))
                     return
                 end
 
-                ThemeManager.Library:Notify(string.format("成功删除主题 %q", Name))
+                ThemeManager.Library:Notify(string.format("Successfully deleted theme %q", Name))
                 RefreshDefaultThemeLabel()
             end
         )
     end)
 
-    Themesbox:AddButton("刷新列表", RefreshList)
+    Themesbox:AddButton("Refresh list", RefreshList)
 
-    Themesbox:AddButton("设为默认", function()
+    Themesbox:AddButton("Set as default", function()
         local Name = CustomThemeList.Value
         if IsStringEmpty(Name) then
-            ThemeManager.Library:Notify("请先选择一个主题。")
+            ThemeManager.Library:Notify("Please select a theme first.")
             return
         end
 
         ThemeManager:SaveDefault(Name)
-        ThemeManager.Library:Notify(string.format("已将默认主题设置为 %q", Name))
+        ThemeManager.Library:Notify(string.format("Successfully set default theme to %q", Name))
         RefreshDefaultThemeLabel()
     end)
 
-    Themesbox:AddButton("重置默认", function()
+    Themesbox:AddButton("Reset default", function()
         ShowDialog(
             function(): boolean
                 return true
             end,
 
             "ThemeManager_ResetDefault",
-            "重置默认主题",
-            "您确定要清除默认主题吗？下次加载库将恢复为内置默认主题。",
+            "Reset default theme",
+            "Are you sure you want to clear the default theme? The library will revert to its built-in default on next load.",
             
-            "重置",
+            "Reset",
             function()
                 local Success, ErrorMessage = ThemeManager:DeleteDefaultTheme()
                 if not Success then
-                    ThemeManager.Library:Notify(string.format("重置默认主题失败: %s", ErrorMessage))
+                    ThemeManager.Library:Notify(string.format("Failed to reset default theme: %s", ErrorMessage))
                     return
                 end
 
-                ThemeManager.Library:Notify("成功重置默认主题。")
+                ThemeManager.Library:Notify("Successfully reset default theme.")
                 RefreshDefaultThemeLabel()
             end
         )
     end)
 
-    DefaultThemeLabel = Themesbox:AddLabel("当前默认主题: ...", true);
+    DefaultThemeLabel = Themesbox:AddLabel("Current default theme: ...", true);
 
-    --// 设置变量
+    --// Set Variables
     CustomThemeList, CustomThemeName, ThemeList, FontFace, BackgroundImage =
         ThemeManager.Library.Options.ThemeManager_CustomThemeList,
         ThemeManager.Library.Options.ThemeManager_CustomThemeName,
@@ -15426,7 +15437,7 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
         ThemeManager.Library.Options.FontFace,
         ThemeManager.Library.Options.BackgroundImage;
 
-    --// 处理器
+    --// Handlers
     ThemeList:OnChanged(function()
         ThemeManager:ApplyTheme(ThemeList.Value)
     end)
@@ -15443,7 +15454,7 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
     FontFace:OnChanged(function(Value) ThemeManager.Library:SetFont(Enum.Font[Value]) end)
     BackgroundImage:OnChanged(function(Value) ThemeManager.Library:SetBackgroundImage(Value) end)
 
-    --// 加载默认
+    --// Load default
     ThemeManager:LoadDefault()
     ThemeManager.AppliedToTab = true
     RefreshDefaultThemeLabel()
@@ -15452,7 +15463,7 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
 end
 
 function ThemeManager:CreateGroupBox(Tab: any, IconName: string)
-    return Tab:AddLeftGroupbox("主题", IconName or "paintbrush")
+    return Tab:AddLeftGroupbox("Themes", IconName or "paintbrush")
 end
 
 function ThemeManager:ApplyToTab(Tab: any, IconName: string)
@@ -15477,7 +15488,7 @@ local HttpService: HttpService = cloneref(game:GetService("HttpService"))
 local isfolder, isfile, listfiles = isfolder, isfile, listfiles
 
 if typeof(clonefunction) == "function" then
-    -- 修复 is_____ 函数，这些函数只应返回布尔值，不应报错。
+    -- Fix is_____ functions for shitsploits, those functions should never error, only return a boolean.
 
     local
         isfolder_copy,
@@ -15523,7 +15534,7 @@ function SaveManager:SetLibrary(Library)
     SaveManager.Library = Library
 end
 
---// 元素解析器 \\--
+--// Element Parser \\--
 local SpecialValueParser = {
     UDim2 = {
         Encode = function(Value: UDim2)
@@ -15692,7 +15703,7 @@ local ElementParser = {}; do
     )
 end
 
---// 辅助函数 \\--
+--// Helpers \\--
 local function Trim(Text: string)
     return Text:match("^%s*(.-)%s*$")
 end
@@ -15709,7 +15720,7 @@ local function IsValidFolderPath(Name: string): boolean
     )
 end
 
---// 文件夹辅助函数 \\--
+--// Folder helper \\--
 local function SplitPath(Path: string): {string}
 	local Result = {}
 	local Current = ""
@@ -15743,7 +15754,7 @@ local function GetCurrentSettingsPath(): false | string
     return if SubFolderPath == false then GetFolderPath() else SubFolderPath
 end
 
---// 文件辅助函数 \\--
+--// Files helper \\--
 local function GetConfigPath(ConfigName: string): false | string
     local CurrentSettingsPath = GetCurrentSettingsPath()
     return if CurrentSettingsPath == false then false else string.format("%s/%s.json", CurrentSettingsPath, ConfigName)
@@ -15759,14 +15770,14 @@ local function GetAutoloadPath(): false | string
     return if CurrentSettingsPath == false then false else string.format("%s/autoload.txt", CurrentSettingsPath)
 end
 
---// 索引 \\--
+--// Indexes \\--
 function SaveManager:SetLoadingOrder(Enabled: boolean, Order: {string}?)
     SaveManager.UseLoadingOrder = Enabled == true
     SaveManager.LoadingOrder = typeof(Order) == "table" and Order or SaveManager.LoadingOrder
 end
 
 function SaveManager:SetIgnoreIndexes(Indexes: {string}?)
-    assert(typeof(Indexes) == "table", "期望一个表，实际得到 " .. typeof(Indexes))
+    assert(typeof(Indexes) == "table", "Expected table, got " .. typeof(Indexes))
 
     for _, Index in Indexes do
         SaveManager.Ignore[Index] = true
@@ -15780,7 +15791,7 @@ function SaveManager:IgnoreThemeSettings()
     })
 end
 
---// 文件夹 \\--
+--// Folders \\--
 function SaveManager:GetPaths(): {string}
     local SubFolderPath = GetSubFolderPath()
     if SubFolderPath == false then
@@ -15832,20 +15843,20 @@ function SaveManager:CheckSubFolder(CreateFolder: boolean)
 end
 
 function SaveManager:SetFolder(Folder: string)
-    assert(IsValidFolderPath(Folder), "无效路径")
+    assert(IsValidFolderPath(Folder), "Invalid path provided")
 
     SaveManager.Folder = Folder
     SaveManager:BuildFolderTree()
 end
 
 function SaveManager:SetSubFolder(SubFolder: string)
-    assert(IsValidFolderPath(SubFolder), "无效路径")
+    assert(IsValidFolderPath(SubFolder), "Invalid path provided")
 
     SaveManager.SubFolder = SubFolder
     SaveManager:BuildFolderTree()
 end
 
---// 配置管理 \\--
+--// Config Management \\--
 function SaveManager:RefreshConfigList()
     local SettingsPath = GetCurrentSettingsPath()
     if SettingsPath == false then
@@ -15854,7 +15865,7 @@ function SaveManager:RefreshConfigList()
 
     local SuccessList, Files = pcall(listfiles, SettingsPath)
     if not (SuccessList and typeof(Files) == "table") then
-        SaveManager.Library:Notify(string.format("加载配置列表失败: %s", tostring(Files)))
+        SaveManager.Library:Notify(string.format("Failed to load config list: %s", tostring(Files)))
         return {}
     end
 
@@ -15875,16 +15886,16 @@ end
 
 function SaveManager:Save(ConfigName: string): (boolean, string?)
     if IsStringEmpty(ConfigName) then
-        return false, "无效的配置名称"
+        return false, "Invalid config name provided"
     end
 
     if string.lower(ConfigName) == "autoload" then
-        return false, "无效的配置名称"
+        return false, "Invalid config name provided"
     end
 
     local ConfigPath = GetConfigPath(ConfigName)
     if ConfigPath == false then
-        return false, "无效的配置名称"
+        return false, "Invalid config name provided"
     end
 
     SaveManager:CheckFolderTree()
@@ -15902,7 +15913,7 @@ function SaveManager:Save(ConfigName: string): (boolean, string?)
         } else nil
     }
 
-    --// 开关
+    --// Toggles
     for Index, Toggle in Library.Toggles do
         if not Toggle.Type then continue end
         if IgnoreIndexes[Index] then continue end
@@ -15913,7 +15924,7 @@ function SaveManager:Save(ConfigName: string): (boolean, string?)
         table.insert(CurrentData.objects, Parser.Save(Index, Toggle))
     end
 
-    --// 选项
+    --// Options
     for Index, Option in Library.Options do
         if not Option.Type then continue end
         if IgnoreIndexes[Index] then continue end
@@ -15924,7 +15935,7 @@ function SaveManager:Save(ConfigName: string): (boolean, string?)
         table.insert(CurrentData.objects, Parser.Save(Index, Option))
     end
 
-    --// 组框
+    --// Groupboxes
     for TabIndex, Tab in Library.Tabs do
         if not Tab.Groupboxes then continue end
 
@@ -15940,12 +15951,12 @@ function SaveManager:Save(ConfigName: string): (boolean, string?)
 
     local SuccessEncode, EncodedData = pcall(HttpService.JSONEncode, HttpService, CurrentData)
     if not SuccessEncode then
-        return false, "数据编码失败"
+        return false, "Failed to encode data"
     end
 
     local SuccessWrite, ErrorMessage = pcall(writefile, ConfigPath, EncodedData)
     if not SuccessWrite then
-        return false, "写入配置文件失败: " .. tostring(ErrorMessage)
+        return false, "Failed to write config file: " .. tostring(ErrorMessage)
     end
 
     return true
@@ -15953,22 +15964,22 @@ end
 
 function SaveManager:Load(ConfigName: string): (boolean, string?)
     if IsStringEmpty(ConfigName) then
-        return false, "未选择配置"
+        return false, "No config is selected"
     end
 
     local ConfigPath = GetConfigPath(ConfigName)
     if ConfigPath == false or not isfile(ConfigPath) then
-        return false, "配置文件不存在"
+        return false, "Config file does not exist"
     end
 
     local SuccessRead, Content = pcall(readfile, ConfigPath)
     if not SuccessRead then
-        return false, "读取配置文件失败"
+        return false, "Failed to read config file"
     end
 
     local SuccessDecode, Decoded = pcall(HttpService.JSONDecode, HttpService, Content)
     if not SuccessDecode or typeof(Decoded) ~= "table" or typeof(Decoded.objects) ~= "table" then
-        return false, "解析配置数据失败"
+        return false, "Failed to decode config data"
     end
 
     local Library = SaveManager.Library
@@ -15983,7 +15994,7 @@ function SaveManager:Load(ConfigName: string): (boolean, string?)
         end)
     end
 
-    --// 快捷键菜单
+    --// Keybind Menu
     if Library.KeybindFrame and typeof(Decoded.keybindMenu) == "table" then
         local KeybindFrameData = Decoded.keybindMenu
         local IsVisible = KeybindFrameData.visible == true
@@ -15998,7 +16009,7 @@ function SaveManager:Load(ConfigName: string): (boolean, string?)
         end
     end
 
-    --// 元素
+    --// Elements
     for _, Option in Decoded.objects do
         if not Option.type then continue end
         if IgnoreIndexes[Option.idx] then continue end
@@ -16014,17 +16025,17 @@ end
 
 function SaveManager:Delete(ConfigName: string): (boolean | string?)
     if IsStringEmpty(ConfigName) then
-        return false, "未选择配置"
+        return false, "No config is selected"
     end
 
     local ConfigPath = GetConfigPath(ConfigName)
     if ConfigPath == false or not isfile(ConfigPath) then
-        return false, "配置文件不存在"
+        return false, "Config file does not exist"
     end
 
     local SuccessDelete, ErrorMessage = pcall(delfile, ConfigPath)
     if not SuccessDelete then
-        return false, "删除配置文件失败: " .. tostring(ErrorMessage)
+        return false, "Failed to delete config file: " .. tostring(ErrorMessage)
     end
 
     if ConfigName == SaveManager.AutoloadConfig then
@@ -16034,17 +16045,17 @@ function SaveManager:Delete(ConfigName: string): (boolean | string?)
     return true
 end
 
---// 自动加载配置 \\--
+--// Auto Load Config \\--
 function SaveManager:GetAutoloadConfig(): (string, boolean, string?)
     SaveManager:CheckFolderTree()
 
     local AutoloadPath = GetAutoloadPath()
     if AutoloadPath == false then
-        return "none", false, "无效路径"
+        return "none", false, "Invalid path provided"
     end
 
     if not isfile(AutoloadPath) then
-        return "none", false, "未设置自动加载配置"
+        return "none", false, "Autoload config is not set"
     end
 
     local SuccessRead, AutoloadConfigName = pcall(readfile, AutoloadPath)
@@ -16054,7 +16065,7 @@ function SaveManager:GetAutoloadConfig(): (string, boolean, string?)
 
     local ConfigExists = DoesConfigExist(AutoloadConfigName)
     if not ConfigExists then
-        return "none", false, "配置文件未找到"
+        return "none", false, "Config file not found"
     end
 
     SaveManager.AutoloadConfig = AutoloadConfigName
@@ -16063,18 +16074,18 @@ end
 
 function SaveManager:SaveAutoloadConfig(ConfigName: string): (boolean, string?)
     if IsStringEmpty(ConfigName) then
-        return false, "未选择配置"
+        return false, "No config is selected"
     end
 
     SaveManager:CheckFolderTree()
 
     local AutoloadPath = GetAutoloadPath()
     if AutoloadPath == false then
-        return false, "无效路径"
+        return false, "Invalid path provided"
     end
 
     if not DoesConfigExist(ConfigName) then
-        return false, "配置不存在"
+        return false, "Config does not exist"
     end
 
     local SuccessWrite, ErrorMessage = pcall(writefile, AutoloadPath, ConfigName)
@@ -16089,8 +16100,8 @@ end
 function SaveManager:LoadAutoloadConfig()
     local ConfigName, Success, FetchErrorMessage = SaveManager:GetAutoloadConfig()
     if not Success or FetchErrorMessage then
-        if FetchErrorMessage ~= "未设置自动加载配置" then
-            SaveManager.Library:Notify(string.format("加载自动加载配置失败: %s", FetchErrorMessage))
+        if FetchErrorMessage ~= "Autoload config is not set" then
+            SaveManager.Library:Notify(string.format("Failed to load autoload config: %s", FetchErrorMessage))
         end
 
         return
@@ -16098,11 +16109,11 @@ function SaveManager:LoadAutoloadConfig()
 
     local SuccessLoad, LoadErrorMessage = SaveManager:Load(ConfigName)
     if not SuccessLoad then
-        SaveManager.Library:Notify(string.format("加载自动加载配置 %q 失败: %s", ConfigName, LoadErrorMessage))
+        SaveManager.Library:Notify(string.format("Failed to load autoload config: %s", LoadErrorMessage))
         return
     end
 
-    SaveManager.Library:Notify(string.format("成功加载自动加载配置 %q", ConfigName))
+    SaveManager.Library:Notify(string.format("Successfully loaded autoload config %q", ConfigName))
 end
 
 function SaveManager:DeleteAutoLoadConfig(): (boolean, string?)
@@ -16110,11 +16121,11 @@ function SaveManager:DeleteAutoLoadConfig(): (boolean, string?)
 
     local AutoloadPath = GetAutoloadPath()
     if AutoloadPath == false then
-        return false, "无效路径"
+        return false, "Invalid path provided"
     end
 
     if not isfile(AutoloadPath) then
-        return false, "未设置自动加载配置"
+        return false, "Autoload config is not set"
     end
 
     local SuccessDelete, ErrorMessage = pcall(delfile, AutoloadPath)
@@ -16147,8 +16158,8 @@ local function ShowDialog(
         AutoDismiss = false,
 
         FooterButtons = {
-            取消 = {
-                Title = "取消",
+            Cancel = {
+                Title = "Cancel",
                 Variant = "Ghost",
                 Order = 1,
                 Callback = function(Dialog)
@@ -16156,7 +16167,7 @@ local function ShowDialog(
                 end
             },
 
-            确认 = {
+            DestructiveAction = {
                 Title = DestructiveText,
                 Variant = "Destructive",
                 Order = 2,
@@ -16170,8 +16181,8 @@ local function ShowDialog(
 end
 
 function SaveManager:BuildConfigSection(Tab: any, IconName: string)
-    assert(SaveManager.Library, "未设置Library，请先调用 SaveManager:SetLibrary(Library)")
-    local ConfigurationBox = Tab:AddRightGroupbox("配置", IconName or "folder-cog")
+    assert(SaveManager.Library, "Library is not set, call SaveManager:SetLibrary(Library) first.")
+    local ConfigurationBox = Tab:AddRightGroupbox("Configuration", IconName or "folder-cog")
     
     local ConfigNameInput, ConfigList, AutoloadConfigLabel
     local function RefreshList()
@@ -16182,24 +16193,24 @@ function SaveManager:BuildConfigSection(Tab: any, IconName: string)
     local function RefreshAutoloadConfigLabel()
         local AutoloadConfigName, _Success, _ErrorMessage = SaveManager:GetAutoloadConfig()
 
-        AutoloadConfigLabel:SetText(string.format("当前自动加载配置: %s", AutoloadConfigName))
+        AutoloadConfigLabel:SetText(string.format("Current autoload config: %s", AutoloadConfigName))
         if ConfigList then RefreshList() end
     end
 
-    --// 创建
+    --// Create
     ConfigurationBox:AddInput("SaveManager_ConfigName", {
-        Text = "配置名称"
+        Text = "Config name"
     })
 
-    ConfigurationBox:AddButton("创建配置", function()
+    ConfigurationBox:AddButton("Create config", function()
         local ConfigName = ConfigNameInput.Value
         if IsStringEmpty(ConfigName) then
-            SaveManager.Library:Notify("配置名称不能为空。")
+            SaveManager.Library:Notify("Configuration name cannot be empty.")
             return
         end
 
         if string.lower(ConfigName) == "autoload" then
-            SaveManager.Library:Notify("无效的配置名称。")
+            SaveManager.Library:Notify("Invalid config name provided.")
             return
         end
         
@@ -16209,18 +16220,18 @@ function SaveManager:BuildConfigSection(Tab: any, IconName: string)
             end,
 
             "SaveManager_CreateConfig",
-            "配置已存在",
-            string.format("名为 %q 的配置已存在。覆盖它将会用您当前的设置替换它。", ConfigName),
+            "Config already exists",
+            string.format("A config named %q already exists. Overwriting will replace it with your current settings.", ConfigName),
 
-            "覆盖",
+            "Overwrite",
             function()
                 local Success, ErrorMessage = SaveManager:Save(ConfigName)
                 if not Success then
-                    SaveManager.Library:Notify(string.format("创建配置 %q 失败: %s", ConfigName, ErrorMessage))
+                    SaveManager.Library:Notify(string.format("Failed to create config %q: %s", ConfigName, ErrorMessage))
                     return
                 end
 
-                SaveManager.Library:Notify(string.format("成功创建配置 %q", ConfigName))
+                SaveManager.Library:Notify(string.format("Successfully created config %q", ConfigName))
                 RefreshList()
             end
         )
@@ -16228,9 +16239,9 @@ function SaveManager:BuildConfigSection(Tab: any, IconName: string)
 
     ConfigurationBox:AddDivider()
 
-    --// 管理
+    --// Manage
     ConfigurationBox:AddDropdown("SaveManager_ConfigList", {
-        Text = "配置列表",
+        Text = "Config list",
 
         Values = SaveManager:RefreshConfigList(),
         AllowNull = true,
@@ -16238,14 +16249,14 @@ function SaveManager:BuildConfigSection(Tab: any, IconName: string)
 
         FormatDisplayValue = function(Value: any)
             if Value == SaveManager.AutoloadConfig then
-                return string.format("%s (自动加载)", Value)
+                return string.format("%s (autoload)", Value)
             end
 
             return Value
         end,
         FormatListValue = function(Value: any)
             if Value == SaveManager.AutoloadConfig then
-                return string.format("%s (自动加载)", Value)
+                return string.format("%s (autoload)", Value)
             end
 
             return Value
@@ -16253,157 +16264,157 @@ function SaveManager:BuildConfigSection(Tab: any, IconName: string)
     })
 
     ConfigurationBox:AddButton({
-        Text = "加载配置",
+        Text = "Load config",
         DoubleClick = false,
 
         Func = function()
             local ConfigName = ConfigList.Value
             if IsStringEmpty(ConfigName) then
-                SaveManager.Library:Notify("请先选择一个配置。")
+                SaveManager.Library:Notify("Please select a config first.")
                 return
             end
 
             local Success, ErrorMessage = SaveManager:Load(ConfigName)
             if not Success then
-                SaveManager.Library:Notify(string.format("加载配置 %q 失败: %s", ConfigName, ErrorMessage))
+                SaveManager.Library:Notify(string.format("Failed to load config %q: %s", ConfigName, ErrorMessage))
                 return
             end
 
-            SaveManager.Library:Notify(string.format("成功加载配置 %q", ConfigName))
+            SaveManager.Library:Notify(string.format("Successfully loaded config %q", ConfigName))
         end
     })
     
     ConfigurationBox:AddButton({
-        Text = "覆盖配置",
+        Text = "Overwrite config",
         DoubleClick = false,
 
         Func = function()
             local ConfigName = ConfigList.Value
             if IsStringEmpty(ConfigName) then
-                SaveManager.Library:Notify("请先选择一个配置。")
+                SaveManager.Library:Notify("Please select a config first.")
                 return
             end
 
             ShowDialog(
                 function(): boolean
-                    return true --// 总是显示
+                    return true --// Always show
                 end,
 
                 "SaveManager_OverwriteConfig",
-                "覆盖配置",
-                string.format("您确定要用您当前的设置覆盖 %q 吗？此操作无法撤销。", ConfigName),
+                "Overwrite config",
+                string.format("Are you sure you want to overwrite %q with your current settings? This cannot be undone.", ConfigName),
 
-                "覆盖",
+                "Overwrite",
                 function()
                     local Success, ErrorMessage = SaveManager:Save(ConfigName)
                     if not Success then
-                        SaveManager.Library:Notify(string.format("覆盖配置 %q 失败: %s", ConfigName, ErrorMessage))
+                        SaveManager.Library:Notify(string.format("Failed to overwrite config %q: %s", ConfigName, ErrorMessage))
                         return
                     end
 
-                    SaveManager.Library:Notify(string.format("成功覆盖配置 %q", ConfigName))
+                    SaveManager.Library:Notify(string.format("Successfully overwrote config %q", ConfigName))
                 end
             )
         end
     })
 
     ConfigurationBox:AddButton({
-        Text = "删除配置",
+        Text = "Delete config",
         DoubleClick = false,
 
         Func = function()
             local ConfigName = ConfigList.Value
             if IsStringEmpty(ConfigName) then
-                SaveManager.Library:Notify("请先选择一个配置。")
+                SaveManager.Library:Notify("Please select a config first.")
                 return
             end
 
             ShowDialog(
                 function(): boolean
-                    return true --// 总是显示
+                    return true --// Always show
                 end,
 
                 "SaveManager_DeleteConfig",
-                "删除配置",
-                string.format("您确定要删除 %q 吗？此操作无法撤销。", ConfigName),
+                "Delete config",
+                string.format("Are you sure you want to delete %q? This cannot be undone.", ConfigName),
                 
-                "删除",
+                "Delete",
                 function()
                     local Success, ErrorMessage = SaveManager:Delete(ConfigName)
                     if not Success then
-                        SaveManager.Library:Notify(string.format("删除配置 %q 失败: %s", ConfigName, ErrorMessage))
+                        SaveManager.Library:Notify(string.format("Failed to delete config %q: %s", ConfigName, ErrorMessage))
                         return
                     end
 
-                    SaveManager.Library:Notify(string.format("成功删除配置 %q", ConfigName))
+                    SaveManager.Library:Notify(string.format("Successfully deleted config %q", ConfigName))
                     RefreshAutoloadConfigLabel()
                 end
             )
         end
     })
 
-    ConfigurationBox:AddButton("刷新列表", RefreshList)
+    ConfigurationBox:AddButton("Refresh list", RefreshList)
 
-    --// 自动加载配置
+    --// Autoload Config
     ConfigurationBox:AddButton({
-        Text = "设为自动加载",
+        Text = "Set as autoload",
         DoubleClick = false,
 
         Func = function()
             local ConfigName = ConfigList.Value
             if IsStringEmpty(ConfigName) then
-                SaveManager.Library:Notify("请先选择一个配置。")
+                SaveManager.Library:Notify("Please select a config first.")
                 return
             end
 
             local Success, ErrorMessage = SaveManager:SaveAutoloadConfig(ConfigName)
             if not Success then
-                SaveManager.Library:Notify(string.format("设置自动加载配置 %q 失败: %s", ConfigName, ErrorMessage))
+                SaveManager.Library:Notify(string.format("Failed to set autoload config %q: %s", ConfigName, ErrorMessage))
                 return
             end
 
-            SaveManager.Library:Notify(string.format("成功将自动加载配置设置为 %q", ConfigName))
+            SaveManager.Library:Notify(string.format("Successfully set autoload config to %q", ConfigName))
             RefreshAutoloadConfigLabel()
         end
     })
 
     ConfigurationBox:AddButton({
-        Text = "重置自动加载",
+        Text = "Reset autoload",
         DoubleClick = false,
 
         Func = function()
             ShowDialog(
                 function(): boolean
-                    return true --// 总是显示
+                    return true --// Always show
                 end,
 
                 "SaveManager_ResetAutoload",
-                "重置自动加载配置",
-                "您确定要清除自动加载配置吗？下次启动将不会自动加载任何配置。",
+                "Reset autoload config",
+                "Are you sure you want to clear the autoload config? No config will be loaded automatically on next launch.",
                 
-                "重置",
+                "Reset",
                 function()
                     local Success, ErrorMessage = SaveManager:DeleteAutoLoadConfig()
                     if not Success then
-                        SaveManager.Library:Notify(string.format("重置自动加载配置失败: %s", ErrorMessage))
+                        SaveManager.Library:Notify(string.format("Failed to reset autoload config: %s", ErrorMessage))
                         return
                     end
 
-                    SaveManager.Library:Notify("成功重置自动加载配置。")
+                    SaveManager.Library:Notify("Successfully reset autoload config.")
                     RefreshAutoloadConfigLabel()
                 end
             )
         end
     })
 
-    AutoloadConfigLabel = ConfigurationBox:AddLabel("当前自动加载配置: ...", true);
+    AutoloadConfigLabel = ConfigurationBox:AddLabel("Current autoload config: ...", true);
 
-    --// 设置变量
+    --// Set variables
     ConfigNameInput, ConfigList = 
         SaveManager.Library.Options.SaveManager_ConfigName, 
         SaveManager.Library.Options.SaveManager_ConfigList;
 
-    --// 刷新
+    --// Refresh
     RefreshAutoloadConfigLabel()
     SaveManager:SetIgnoreIndexes({ "SaveManager_ConfigList", "SaveManager_ConfigName" })
 
