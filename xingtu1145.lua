@@ -115,10 +115,10 @@ local function createOrShowRedButton()
     btn.MouseButton1Click:Connect(function()
         toggleShoot()
         if isRunning then
-            btn.Text = "你是给"
+            btn.Text = "关"
             btn.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
         else
-            btn.Text = "我是给"
+            btn.Text = "开"
             btn.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
         end
     end)
@@ -158,7 +158,7 @@ SettingsGroup:Input({
 })
 
 SettingsGroup:Button({
-    Title = "创建红色按钮",
+    Title = "点击创建按钮😡",
     Callback = function()
         createOrShowRedButton()
     end
