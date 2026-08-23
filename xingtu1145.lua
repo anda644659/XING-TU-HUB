@@ -16,11 +16,18 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
 
+-- ===== 射击变量 =====
 local isRunning = false
 local loopConnection = nil
 local shoot = game:GetService("ReplicatedStorage"):WaitForChild("remotes"):WaitForChild("shoot")
 local fireRate = 40
 local redButtonGUI = nil
+
+-- ===== ESP变量 =====
+local sirenESP = false
+local catESP = false
+local sirenHighlights = {}
+local catHighlights = {}
 
 -- ===== 射击函数 =====
 local function getShootArgs()
@@ -73,9 +80,8 @@ local function toggleShoot()
     end
 end
 
--- ===== 创建按钮 =====
+-- ===== 创建红色按钮 =====
 local function createOrShowRedButton()
-    -- 如果已存在，返回
     if redButtonGUI and redButtonGUI.Parent then
         redButtonGUI.Enabled = true
         redButtonGUI.Visible = true
@@ -87,7 +93,6 @@ local function createOrShowRedButton()
         return
     end
 
-    -- 如果存在但被销毁，重新创建
     if redButtonGUI then
         redButtonGUI = nil
     end
@@ -130,18 +135,99 @@ local function createOrShowRedButton()
     })
 end
 
--- ===== Wind UI 窗口 =====
+-- ============================================================
+-- ESP 功能
+-- ============================================================
+
+-- ===== 获取所有匹配的模型 =====
+local function getModelsByName(name)
+    local results = {}
+    for _, obj in ipairs(workspace:GetDescendants()) do
+        if obj:IsA("Model") and obj.Name:lower() == name:lower() then
+            table.insert(results, obj)
+        end
+    end
+    return results
+end
+
+-- ===== 添加高亮 =====
+local function addHighlight(model, color)
+    if model:FindFirstChild("ESP_Highlight") then return end
+    local highlight = Instance.new("Highlight")
+    highlight.Name = "ESP_Highlight"
+    highlight.FillColor = color
+    highlight.FillTransparency = 0.5
+    highlight.OutlineColor = color
+    highlight.OutlineTransparency = 0
+    highlight.Parent = model
+    return highlight
+end
+
+-- ===== 移除高亮 =====
+local function removeHighlight(model)
+    local highlight = model:FindFirstChild("ESP_Highlight")
+    if highlight then highlight:Destroy() end
+end
+
+-- ===== 刷新汽笛人透视 =====
+local function refreshSirenESP()
+    local models = getModelsByName("real_siren")
+    for _, model in ipairs(models) do
+        if sirenESP then
+            if not model:FindFirstChild("ESP_Highlight") then
+                addHighlight(model, Color3.fromRGB(255, 100, 0))
+            end
+        else
+            removeHighlight(model)
+        end
+    end
+end
+
+-- ===== 刷新卡通猫透视 =====
+local function refreshCatESP()
+    local models = getModelsByName("cartoon_cat")
+    for _, model in ipairs(models) do
+        if catESP then
+            if not model:FindFirstChild("ESP_Highlight") then
+                addHighlight(model, Color3.fromRGB(255, 0, 255))
+            end
+        else
+            removeHighlight(model)
+        end
+    end
+end
+
+-- ===== 监控新生成的模型 =====
+local function startESPMonitoring()
+    workspace.DescendantAdded:Connect(function(child)
+        if child:IsA("Model") then
+            local name = child.Name:lower()
+            if name == "real_siren" and sirenESP then
+                addHighlight(child, Color3.fromRGB(255, 100, 0))
+            elseif name == "cartoon_cat" and catESP then
+                addHighlight(child, Color3.fromRGB(255, 0, 255))
+            end
+        end
+    end)
+end
+startESPMonitoring()
+
+-- ============================================================
+-- Wind UI 窗口
+-- ============================================================
+
 local Window = WindUI:CreateWindow({
-    Title = "射击控制",
+    Title = "射击控制 & ESP",
     Author = "User",
     Icon = "",
     Theme = "Dark",
-    Size = UDim2.fromOffset(400, 250),
+    Size = UDim2.fromOffset(400, 350),
     SideBarWidth = 150,
     Resizable = true,
     AutoScale = true
 })
 
+-- ===== 控制标签页 =====
 local MainTab = Window:Tab({ Title = "控制", Icon = "" })
 
 local SettingsGroup = MainTab:Section({ Title = "射速设置" })
@@ -164,5 +250,31 @@ SettingsGroup:Button({
     end
 })
 
-print("Wind UI 连射脚本已加载")
-print("输入射速后点击创建红色按钮")
+-- ===== ESP标签页 =====
+local ESPTab = Window:Tab({ Title = "ESP", Icon = "" })
+
+local ESPGroup = ESPTab:Section({ Title = "怪物透视" })
+
+ESPGroup:Toggle({
+    Title = "汽笛人透视 (real_siren)",
+    Default = false,
+    Callback = function(v)
+        sirenESP = v
+        refreshSirenESP()
+        print(v and "汽笛人透视已开启" or "汽笛人透视已关闭")
+    end
+})
+
+ESPGroup:Toggle({
+    Title = "卡通猫透视 (cartoon_cat)",
+    Default = false,
+    Callback = function(v)
+        catESP = v
+        refreshCatESP()
+        print(v and "卡通猫透视已开启" or "卡通猫透视已关闭")
+    end
+})
+
+print("Wind UI 脚本已加载（射击 + ESP）")
+print("控制标签页：射速设置 + 红色按钮")
+print("ESP标签页：汽笛人透视 + 卡通猫透视")
