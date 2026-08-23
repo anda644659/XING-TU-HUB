@@ -28,12 +28,16 @@ local sirenESP = false
 local catESP = false
 local MAX_VISIBLE = 5
 
--- ===== 缓存变量（新增） =====
+-- ===== 地图变量 =====
+local brightEnabled = false
+local originalBrightness = game:GetService("Lighting").Brightness
+
+-- ===== 缓存变量 =====
 local cachedSirens = {}
 local cachedCats = {}
 local lastCacheUpdate = 0
-local CACHE_INTERVAL = 2  -- 每2秒更新一次缓存
-local highlightedObjects = {}  -- 记录已高亮的对象，避免重复操作
+local CACHE_INTERVAL = 2
+local highlightedObjects = {}
 
 -- ===== 射击函数 =====
 local function getShootArgs()
@@ -131,7 +135,7 @@ local function createOrShowRedButton()
 end
 
 -- ============================================================
--- ESP 功能（优化版：使用缓存）
+-- ESP 功能
 -- ============================================================
 
 local function getModelsByPartialName(partialName)
@@ -148,20 +152,18 @@ local function getModelsByPartialName(partialName)
     return results
 end
 
--- ===== 更新缓存（只在需要时更新） =====
 local function updateCache()
     local now = tick()
     if now - lastCacheUpdate < CACHE_INTERVAL then 
-        return  -- 还没到更新时间
+        return
     end
     cachedSirens = getModelsByPartialName("siren")
     cachedCats = getModelsByPartialName("cat")
     lastCacheUpdate = now
 end
 
--- ===== 添加高亮（记录已添加的对象） =====
 local function addHighlight(model, color)
-    if highlightedObjects[model] then return end  -- 已存在则跳过
+    if highlightedObjects[model] then return end
     if model:FindFirstChild("ESP_Highlight") then 
         highlightedObjects[model] = true
         return 
@@ -176,7 +178,6 @@ local function addHighlight(model, color)
     highlightedObjects[model] = true
 end
 
--- ===== 移除高亮（清理记录） =====
 local function removeHighlight(model)
     local highlight = model:FindFirstChild("ESP_Highlight")
     if highlight then 
@@ -185,7 +186,6 @@ local function removeHighlight(model)
     end
 end
 
--- ===== 清除所有高亮（按类型） =====
 local function clearAllHighlights(type)
     local keyword = type == "siren" and "siren" or "cat"
     local models = getModelsByPartialName(keyword)
@@ -194,11 +194,9 @@ local function clearAllHighlights(type)
     end
 end
 
--- ===== 刷新透视（使用缓存） =====
 local function refreshAllESP()
-    updateCache()  -- 先更新缓存
+    updateCache()
     
-    -- 清除不需要的高亮
     if not sirenESP then
         for _, model in ipairs(cachedSirens) do
             removeHighlight(model)
@@ -210,7 +208,6 @@ local function refreshAllESP()
         end
     end
 
-    -- 添加新的高亮（最多5个）
     if sirenESP then
         local count = 0
         for _, model in ipairs(cachedSirens) do
@@ -230,17 +227,15 @@ local function refreshAllESP()
     end
 end
 
--- ===== 定时刷新（每2秒刷新一次） =====
 task.spawn(function()
     while true do
         if sirenESP or catESP then
             refreshAllESP()
         end
-        task.wait(2)  -- 2秒刷新一次
+        task.wait(2)
     end
 end)
 
--- ===== 监控新生成的模型（只标记脏数据，不立即刷新） =====
 local needRefresh = false
 workspace.DescendantAdded:Connect(function(child)
     if child:IsA("Model") and (sirenESP or catESP) then
@@ -248,7 +243,6 @@ workspace.DescendantAdded:Connect(function(child)
     end
 end)
 
--- ===== 单独的刷新线程（处理 DescendantAdded 触发） =====
 task.spawn(function()
     while true do
         if needRefresh and (sirenESP or catESP) then
@@ -286,12 +280,13 @@ local Window = WindUI:CreateWindow({
     Author = "User",
     Icon = "",
     Theme = "Dark",
-    Size = UDim2.fromOffset(400, 350),
+    Size = UDim2.fromOffset(400, 400),
     SideBarWidth = 150,
     Resizable = true,
     AutoScale = true
 })
 
+-- ===== 控制标签页 =====
 local MainTab = Window:Tab({ Title = "控制", Icon = "" })
 
 local SettingsGroup = MainTab:Section({ Title = "射速设置" })
@@ -313,12 +308,13 @@ SettingsGroup:Button({
     end
 })
 
+-- ===== ESP标签页 =====
 local ESPTab = Window:Tab({ Title = "ESP", Icon = "" })
 
 local ESPGroup = ESPTab:Section({ Title = "怪物透视" })
 
 ESPGroup:Toggle({
-    Title = "汽笛人透视",
+    Title = "汽笛人透视 (real_siren)",
     Default = false,
     Callback = function(v)
         sirenESP = v
@@ -327,7 +323,7 @@ ESPGroup:Toggle({
 })
 
 ESPGroup:Toggle({
-    Title = "卡通猫透视",
+    Title = "卡通猫透视 (cartoon_cat)",
     Default = false,
     Callback = function(v)
         catESP = v
@@ -335,4 +331,26 @@ ESPGroup:Toggle({
     end
 })
 
-print("Wind UI 脚本已加载（ESP缓存优化版）")
+-- ===== 地图标签页 =====
+local MapTab = Window:Tab({ Title = "地图", Icon = "" })
+
+local MapGroup = MapTab:Section({ Title = "照明设置" })
+
+MapGroup:Toggle({
+    Title = "全图高亮",
+    Default = false,
+    Callback = function(v)
+        brightEnabled = v
+        local lighting = game:GetService("Lighting")
+        if v then
+            originalBrightness = lighting.Brightness
+            lighting.Brightness = 50
+            print("亮度已设置为 50")
+        else
+            lighting.Brightness = originalBrightness
+            print("亮度已恢复为 " .. originalBrightness)
+        end
+    end
+})
+
+print("Wind UI 脚本已加载")
