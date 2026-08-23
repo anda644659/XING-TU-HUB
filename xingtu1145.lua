@@ -1,4 +1,3 @@
-
 -- ===== XT牛逼，操你妈 =====
 local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/dist/main.lua"))()
 if not WindUI then
@@ -28,6 +27,13 @@ local redButtonGUI = nil
 local sirenESP = false
 local catESP = false
 local MAX_VISIBLE = 5
+
+-- ===== 缓存变量（新增） =====
+local cachedSirens = {}
+local cachedCats = {}
+local lastCacheUpdate = 0
+local CACHE_INTERVAL = 2  -- 每2秒更新一次缓存
+local highlightedObjects = {}  -- 记录已高亮的对象，避免重复操作
 
 -- ===== 射击函数 =====
 local function getShootArgs()
@@ -125,7 +131,7 @@ local function createOrShowRedButton()
 end
 
 -- ============================================================
--- ESP 功能
+-- ESP 功能（优化版：使用缓存）
 -- ============================================================
 
 local function getModelsByPartialName(partialName)
@@ -142,8 +148,24 @@ local function getModelsByPartialName(partialName)
     return results
 end
 
+-- ===== 更新缓存（只在需要时更新） =====
+local function updateCache()
+    local now = tick()
+    if now - lastCacheUpdate < CACHE_INTERVAL then 
+        return  -- 还没到更新时间
+    end
+    cachedSirens = getModelsByPartialName("siren")
+    cachedCats = getModelsByPartialName("cat")
+    lastCacheUpdate = now
+end
+
+-- ===== 添加高亮（记录已添加的对象） =====
 local function addHighlight(model, color)
-    if model:FindFirstChild("ESP_Highlight") then return end
+    if highlightedObjects[model] then return end  -- 已存在则跳过
+    if model:FindFirstChild("ESP_Highlight") then 
+        highlightedObjects[model] = true
+        return 
+    end
     local highlight = Instance.new("Highlight")
     highlight.Name = "ESP_Highlight"
     highlight.FillColor = color
@@ -151,13 +173,19 @@ local function addHighlight(model, color)
     highlight.OutlineColor = color
     highlight.OutlineTransparency = 0
     highlight.Parent = model
+    highlightedObjects[model] = true
 end
 
+-- ===== 移除高亮（清理记录） =====
 local function removeHighlight(model)
     local highlight = model:FindFirstChild("ESP_Highlight")
-    if highlight then highlight:Destroy() end
+    if highlight then 
+        highlight:Destroy()
+        highlightedObjects[model] = nil
+    end
 end
 
+-- ===== 清除所有高亮（按类型） =====
 local function clearAllHighlights(type)
     local keyword = type == "siren" and "siren" or "cat"
     local models = getModelsByPartialName(keyword)
@@ -166,15 +194,26 @@ local function clearAllHighlights(type)
     end
 end
 
--- ===== 刷新透视 =====
+-- ===== 刷新透视（使用缓存） =====
 local function refreshAllESP()
-    clearAllHighlights("siren")
-    clearAllHighlights("cat")
+    updateCache()  -- 先更新缓存
+    
+    -- 清除不需要的高亮
+    if not sirenESP then
+        for _, model in ipairs(cachedSirens) do
+            removeHighlight(model)
+        end
+    end
+    if not catESP then
+        for _, model in ipairs(cachedCats) do
+            removeHighlight(model)
+        end
+    end
 
+    -- 添加新的高亮（最多5个）
     if sirenESP then
-        local models = getModelsByPartialName("siren")
         local count = 0
-        for _, model in ipairs(models) do
+        for _, model in ipairs(cachedSirens) do
             if count >= MAX_VISIBLE then break end
             addHighlight(model, Color3.fromRGB(255, 100, 0))
             count = count + 1
@@ -182,9 +221,8 @@ local function refreshAllESP()
     end
 
     if catESP then
-        local models = getModelsByPartialName("cat")
         local count = 0
-        for _, model in ipairs(models) do
+        for _, model in ipairs(cachedCats) do
             if count >= MAX_VISIBLE then break end
             addHighlight(model, Color3.fromRGB(255, 0, 255))
             count = count + 1
@@ -192,20 +230,32 @@ local function refreshAllESP()
     end
 end
 
--- ===== 定时刷新（每1秒刷新一次，减少CPU占用） =====
+-- ===== 定时刷新（每2秒刷新一次） =====
 task.spawn(function()
     while true do
         if sirenESP or catESP then
             refreshAllESP()
         end
-        task.wait(1.1)  -- 每1.1秒刷新一次
+        task.wait(2)  -- 2秒刷新一次
     end
 end)
 
--- ===== 监控新生成的模型 =====
+-- ===== 监控新生成的模型（只标记脏数据，不立即刷新） =====
+local needRefresh = false
 workspace.DescendantAdded:Connect(function(child)
     if child:IsA("Model") and (sirenESP or catESP) then
-        refreshAllESP()
+        needRefresh = true
+    end
+end)
+
+-- ===== 单独的刷新线程（处理 DescendantAdded 触发） =====
+task.spawn(function()
+    while true do
+        if needRefresh and (sirenESP or catESP) then
+            needRefresh = false
+            refreshAllESP()
+        end
+        task.wait(0.5)
     end
 end)
 
@@ -268,7 +318,7 @@ local ESPTab = Window:Tab({ Title = "ESP", Icon = "" })
 local ESPGroup = ESPTab:Section({ Title = "怪物透视" })
 
 ESPGroup:Toggle({
-    Title = "汽笛人透视 (real_siren)",
+    Title = "汽笛人透视",
     Default = false,
     Callback = function(v)
         sirenESP = v
@@ -277,7 +327,7 @@ ESPGroup:Toggle({
 })
 
 ESPGroup:Toggle({
-    Title = "卡通猫透视 (cartoon_cat)",
+    Title = "卡通猫透视",
     Default = false,
     Callback = function(v)
         catESP = v
@@ -285,4 +335,4 @@ ESPGroup:Toggle({
     end
 })
 
-print("Wind UI 脚本已加载")
+print("Wind UI 脚本已加载（ESP缓存优化版）")
