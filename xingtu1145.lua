@@ -334,7 +334,7 @@ local function startBrightnessLoop()
     brightLoop = task.spawn(function()
         while brightEnabled do
             local lighting = game:GetService("Lighting")
-            lighting.Brightness = 50
+            lighting.Brightness = 70
             task.wait(0.01)
         end
     end)
@@ -440,4 +440,32 @@ MapGroup:Toggle({
     end
 })
 
-print("Wind UI 脚本已加载")
+-- ===== 除雾 =====
+local fogRemoved = false
+local fogInstance = nil
+
+MapGroup:Toggle({
+    Title = "除雾 (删除 Fog)",
+    Default = false,
+    Callback = function(v)
+        fogRemoved = v
+        local lighting = game:GetService("Lighting")
+        if v then
+            fogInstance = lighting:FindFirstChild("Fog")
+            if fogInstance then
+                fogInstance:Destroy()
+                print("Fog 已删除")
+            else
+                local atmosphere = lighting:FindFirstChildOfClass("Atmosphere")
+                if atmosphere then
+                    atmosphere:Destroy()
+                    print("Atmosphere 已删除")
+                else
+                    print("未找到 Fog 或 Atmosphere")
+                end
+            end
+        else
+            print("Fog 已删除无法恢复，请重新加入游戏")
+        end
+    end
+})
