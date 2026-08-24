@@ -1,4 +1,4 @@
--- ===== XT牛逼，操你妈 =====
+-- ===== XT牛逼 =====
 local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/dist/main.lua"))()
 if not WindUI then
     game:GetService("StarterGui"):SetCore("SendNotification", {
@@ -23,21 +23,22 @@ local shoot = game:GetService("ReplicatedStorage"):WaitForChild("remotes"):WaitF
 local fireRate = 40
 local redButtonGUI = nil
 
--- ===== ESP变量 =====
+-- ===== ESP =====
 local sirenESP = false
 local catESP = false
 local MAX_VISIBLE = 5
 
--- ===== 地图变量 =====
-local brightEnabled = false
-local originalBrightness = game:GetService("Lighting").Brightness
-
--- ===== 缓存变量 =====
+-- ===== 变量 =====
 local cachedSirens = {}
 local cachedCats = {}
 local lastCacheUpdate = 0
 local CACHE_INTERVAL = 2
 local highlightedObjects = {}
+
+-- ===== 锁定变量 =====
+local brightEnabled = false
+local brightLoop = nil
+local originalBrightness = game:GetService("Lighting").Brightness
 
 -- ===== 射击函数 =====
 local function getShootArgs()
@@ -90,7 +91,7 @@ local function toggleShoot()
     end
 end
 
--- ===== 创建按钮 =====
+-- ===== 按钮 =====
 local function createOrShowRedButton()
     if redButtonGUI and redButtonGUI.Parent then
         redButtonGUI.Enabled = true
@@ -253,7 +254,7 @@ task.spawn(function()
     end
 end)
 
--- ===== 清理日志 =====
+-- ===== 清理 =====
 task.spawn(function()
     while true do
         pcall(function()
@@ -271,6 +272,25 @@ task.spawn(function()
     end
 end)
 
+-- ===== 高亮 =====
+local function startBrightnessLoop()
+    if brightLoop then return end
+    brightLoop = task.spawn(function()
+        while brightEnabled do
+            local lighting = game:GetService("Lighting")
+            lighting.Brightness = 50
+            task.wait(0.01)
+        end
+    end)
+end
+
+local function stopBrightnessLoop()
+    if brightLoop then
+        task.cancel(brightLoop)
+        brightLoop = nil
+    end
+end
+
 -- ============================================================
 -- Wind UI 窗口
 -- ============================================================
@@ -280,7 +300,7 @@ local Window = WindUI:CreateWindow({
     Author = "User",
     Icon = "",
     Theme = "Dark",
-    Size = UDim2.fromOffset(400, 400),
+    Size = UDim2.fromOffset(400, 430),
     SideBarWidth = 150,
     Resizable = true,
     AutoScale = true
@@ -314,7 +334,7 @@ local ESPTab = Window:Tab({ Title = "ESP", Icon = "" })
 local ESPGroup = ESPTab:Section({ Title = "怪物透视" })
 
 ESPGroup:Toggle({
-    Title = "汽笛人透视 (real_siren)",
+    Title = "汽笛人透视",
     Default = false,
     Callback = function(v)
         sirenESP = v
@@ -323,7 +343,7 @@ ESPGroup:Toggle({
 })
 
 ESPGroup:Toggle({
-    Title = "卡通猫透视 (cartoon_cat)",
+    Title = "卡通猫透视",
     Default = false,
     Callback = function(v)
         catESP = v
@@ -337,16 +357,17 @@ local MapTab = Window:Tab({ Title = "地图", Icon = "" })
 local MapGroup = MapTab:Section({ Title = "照明设置" })
 
 MapGroup:Toggle({
-    Title = "全图高亮",
+    Title = "高亮",
     Default = false,
     Callback = function(v)
         brightEnabled = v
         local lighting = game:GetService("Lighting")
         if v then
             originalBrightness = lighting.Brightness
-            lighting.Brightness = 50
-            print("亮度已设置为 50")
+            startBrightnessLoop()
+            print("亮度已开启)")
         else
+            stopBrightnessLoop()
             lighting.Brightness = originalBrightness
             print("亮度已恢复为 " .. originalBrightness)
         end
