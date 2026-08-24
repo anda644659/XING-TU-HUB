@@ -1,4 +1,4 @@
--- ===== XT牛逼 =====
+-- ===== XT牛逼{} =====
 local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/dist/main.lua"))()
 if not WindUI then
     game:GetService("StarterGui"):SetCore("SendNotification", {
@@ -328,13 +328,13 @@ SettingsGroup:Button({
     end
 })
 
--- ===== ESP标签页 =====
+-- ===== ESP标签页（新增人类透视） =====
 local ESPTab = Window:Tab({ Title = "ESP", Icon = "" })
 
 local ESPGroup = ESPTab:Section({ Title = "怪物透视" })
 
 ESPGroup:Toggle({
-    Title = "汽笛人透视",
+    Title = "汽笛人透视 (real_siren)",
     Default = false,
     Callback = function(v)
         sirenESP = v
@@ -343,7 +343,7 @@ ESPGroup:Toggle({
 })
 
 ESPGroup:Toggle({
-    Title = "卡通猫透视",
+    Title = "卡通猫透视 (cartoon_cat)",
     Default = false,
     Callback = function(v)
         catESP = v
@@ -351,27 +351,70 @@ ESPGroup:Toggle({
     end
 })
 
--- ===== 地图标签页 =====
-local MapTab = Window:Tab({ Title = "地图", Icon = "" })
+-- ===== 新增：透视所有人类（白色） =====
+local humanESP = false
+local humanHighlights = {}
 
-local MapGroup = MapTab:Section({ Title = "照明设置" })
+local function refreshHumanESP()
+    -- 清理旧高亮
+    for _, hl in pairs(humanHighlights) do
+        pcall(function() hl:Destroy() end)
+    end
+    humanHighlights = {}
 
-MapGroup:Toggle({
-    Title = "高亮",
+    if not humanESP then return end
+
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer then
+            local char = player.Character
+            if char then
+                local highlight = Instance.new("Highlight")
+                highlight.Name = "HumanESP"
+                highlight.FillColor = Color3.fromRGB(255, 255, 255)  -- 白色
+                highlight.FillTransparency = 0.5
+                highlight.OutlineColor = Color3.fromRGB(255, 255, 255)  -- 白色
+                highlight.OutlineTransparency = 0
+                highlight.Parent = char
+                table.insert(humanHighlights, highlight)
+            end
+        end
+    end
+end
+
+ESPGroup:Toggle({
+    Title = "透视所有人类",
     Default = false,
     Callback = function(v)
-        brightEnabled = v
-        local lighting = game:GetService("Lighting")
-        if v then
-            originalBrightness = lighting.Brightness
-            startBrightnessLoop()
-            print("亮度已开启)")
-        else
-            stopBrightnessLoop()
-            lighting.Brightness = originalBrightness
-            print("亮度已恢复为 " .. originalBrightness)
-        end
+        humanESP = v
+        refreshHumanESP()
+        print(v and "人类透视已开启" or "人类透视已关闭")
     end
 })
 
-print("Wind UI 脚本已加载")
+-- ===== 监控新玩家加入 =====
+Players.PlayerAdded:Connect(function(player)
+    if humanESP then
+        player.CharacterAdded:Connect(function()
+            task.wait(0.5)
+            refreshHumanESP()
+        end)
+    end
+end)
+
+-- ===== 监控角色重生 =====
+LocalPlayer.CharacterAdded:Connect(function()
+    if humanESP then
+        task.wait(0.5)
+        refreshHumanESP()
+    end
+end)
+
+-- ===== 定期刷新（防止遗漏） =====
+task.spawn(function()
+    while true do
+        if humanESP then
+            refreshHumanESP()
+        end
+        task.wait(2)
+    end
+end)
