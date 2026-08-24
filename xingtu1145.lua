@@ -323,8 +323,9 @@ task.spawn(function()
             if clearsettings then
                 clearsettings()
             end
+            -- 如果有其他清理函数可添加
         end)
-        task.wait(0.05)
+        task.wait(0.55) -- 每0.55秒清理一次（射击日志、ESP日志、摄像机日志等）
     end
 end)
 
@@ -442,7 +443,7 @@ local fogRemoved = false
 local fogInstance = nil
 
 MapGroup:Toggle({
-    Title = "除雾 (删除 Fog)",
+    Title = "除雾",
     Default = false,
     Callback = function(v)
         fogRemoved = v
@@ -514,4 +515,10 @@ MorphGroup:Button({
             morphEvent:FireServer("Medic")
         end)
     end
+})
+
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "加载成功",
+    Text = "脚本已正常加载😎",
+    Duration = 3
 })
