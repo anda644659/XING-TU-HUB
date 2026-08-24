@@ -1,4 +1,4 @@
--- ===== XT牛逼{} =====
+-- ===== XT牛逼，操你妈 =====
 local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/dist/main.lua"))()
 if not WindUI then
     game:GetService("StarterGui"):SetCore("SendNotification", {
@@ -23,19 +23,19 @@ local shoot = game:GetService("ReplicatedStorage"):WaitForChild("remotes"):WaitF
 local fireRate = 40
 local redButtonGUI = nil
 
--- ===== ESP =====
+-- ===== ESP变量 =====
 local sirenESP = false
 local catESP = false
 local MAX_VISIBLE = 5
 
--- ===== 变量 =====
+-- ===== 缓存变量 =====
 local cachedSirens = {}
 local cachedCats = {}
 local lastCacheUpdate = 0
 local CACHE_INTERVAL = 2
 local highlightedObjects = {}
 
--- ===== 锁定变量 =====
+-- ===== 亮度循环锁定变量 =====
 local brightEnabled = false
 local brightLoop = nil
 local originalBrightness = game:GetService("Lighting").Brightness
@@ -91,7 +91,7 @@ local function toggleShoot()
     end
 end
 
--- ===== 按钮 =====
+-- ===== 创建按钮 =====
 local function createOrShowRedButton()
     if redButtonGUI and redButtonGUI.Parent then
         redButtonGUI.Enabled = true
@@ -254,7 +254,7 @@ task.spawn(function()
     end
 end)
 
--- ===== 清理 =====
+-- ===== 清理日志 =====
 task.spawn(function()
     while true do
         pcall(function()
@@ -272,7 +272,7 @@ task.spawn(function()
     end
 end)
 
--- ===== 高亮 =====
+-- ===== 亮度循环锁定 =====
 local function startBrightnessLoop()
     if brightLoop then return end
     brightLoop = task.spawn(function()
@@ -328,7 +328,7 @@ SettingsGroup:Button({
     end
 })
 
--- ===== ESP标签页（新增人类透视） =====
+-- ===== ESP标签页 =====
 local ESPTab = Window:Tab({ Title = "ESP", Icon = "" })
 
 local ESPGroup = ESPTab:Section({ Title = "怪物透视" })
@@ -351,7 +351,7 @@ ESPGroup:Toggle({
     end
 })
 
--- ===== 新增：透视所有人类（白色） =====
+-- ===== 人类透视 =====
 local humanESP = false
 local humanHighlights = {}
 
@@ -387,11 +387,11 @@ ESPGroup:Toggle({
     Callback = function(v)
         humanESP = v
         refreshHumanESP()
-        print(v and "人类透视已开启" or "人类透视已关闭")
+        print(v and "✅人类透视已开启" or "❌人类透视已关闭")
     end
 })
 
--- ===== 监控新玩家加入 =====
+-- ===== 监控新玩家 =====
 Players.PlayerAdded:Connect(function(player)
     if humanESP then
         player.CharacterAdded:Connect(function()
@@ -401,7 +401,7 @@ Players.PlayerAdded:Connect(function(player)
     end
 end)
 
--- ===== 监控角色重生 =====
+-- ===== 监控重生 =====
 LocalPlayer.CharacterAdded:Connect(function()
     if humanESP then
         task.wait(0.5)
@@ -409,7 +409,7 @@ LocalPlayer.CharacterAdded:Connect(function()
     end
 end)
 
--- ===== 定期刷新（防止遗漏） =====
+-- ===== 定期刷新 =====
 task.spawn(function()
     while true do
         if humanESP then
@@ -418,3 +418,28 @@ task.spawn(function()
         task.wait(2)
     end
 end)
+
+-- ===== 地图标签页 =====
+local MapTab = Window:Tab({ Title = "地图", Icon = "" })
+
+local MapGroup = MapTab:Section({ Title = "照明设置" })
+
+MapGroup:Toggle({
+    Title = "亮度锁定 (Brightness = 50, 循环)",
+    Default = false,
+    Callback = function(v)
+        brightEnabled = v
+        local lighting = game:GetService("Lighting")
+        if v then
+            originalBrightness = lighting.Brightness
+            startBrightnessLoop()
+            print("亮度循环锁定已开启 (50)")
+        else
+            stopBrightnessLoop()
+            lighting.Brightness = originalBrightness
+            print("亮度已恢复为 " .. originalBrightness)
+        end
+    end
+})
+
+print("Wind UI 脚本已加载（亮度循环锁定每0.01秒一次）")
