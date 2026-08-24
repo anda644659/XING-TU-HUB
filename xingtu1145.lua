@@ -515,21 +515,3 @@ MorphGroup:Button({
         end)
     end
 })
-
--- ===== 线程 =====
-task.spawn(function()
-    while true do
-        pcall(function()
-            if syn and syn.clearOutput then
-                syn.clearOutput()
-            end
-            if syn and syn.clearLog then
-                syn.clearLog()
-            end
-            if clearsettings then
-                clearsettings()
-            end
-        end)
-        task.wait(0.5)
-    end
-end)
