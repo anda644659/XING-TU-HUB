@@ -469,3 +469,91 @@ MapGroup:Toggle({
         end
     end
 })
+
+-- ===== 快捷变标签页 =====
+local MorphTab = Window:Tab({ Title = "快捷变", Icon = "" })
+
+local MorphGroup = MorphTab:Section({ Title = "变形" })
+
+-- 获取变形事件
+local morphEvent = game:GetService("ReplicatedStorage"):WaitForChild("remotes"):WaitForChild("morph")
+
+-- 汽笛人
+MorphGroup:Button({
+    Title = "汽笛人",
+    Callback = function()
+        pcall(function()
+            morphEvent:FireServer("Siren Head")
+            print("变形为: 汽笛人")
+            game:GetService("StarterGui"):SetCore("SendNotification", {
+                Title = "变形",
+                Text = "已变形为: 汽笛人",
+                Duration = 2
+            })
+        end)
+    end
+})
+
+-- 卡通猫
+MorphGroup:Button({
+    Title = "卡通猫",
+    Callback = function()
+        pcall(function()
+            morphEvent:FireServer("Cartoon Cat")
+            print("变形为: 卡通猫")
+            game:GetService("StarterGui"):SetCore("SendNotification", {
+                Title = "变形",
+                Text = "已变形为: 卡通猫",
+                Duration = 2
+            })
+        end)
+    end
+})
+
+-- 白龙
+MorphGroup:Button({
+    Title = "白龙",
+    Callback = function()
+        pcall(function()
+            morphEvent:FireServer("Long Horse")
+            print("变形为: 白龙")
+            game:GetService("StarterGui"):SetCore("SendNotification", {
+                Title = "变形",
+                Text = "已变形为: 白龙",
+                Duration = 2
+            })
+        end)
+    end
+})
+
+-- 士兵
+MorphGroup:Button({
+    Title = "士兵",
+    Callback = function()
+        pcall(function()
+            morphEvent:FireServer("Soldier")
+            print("变形为: 士兵")
+            game:GetService("StarterGui"):SetCore("SendNotification", {
+                Title = "变形",
+                Text = "已变形为: 士兵",
+                Duration = 2
+            })
+        end)
+    end
+})
+
+-- 医生
+MorphGroup:Button({
+    Title = "医生",
+    Callback = function()
+        pcall(function()
+            morphEvent:FireServer("Medic")
+            print("变形为: 医生")
+            game:GetService("StarterGui"):SetCore("SendNotification", {
+                Title = "变形",
+                Text = "已变形为: 医生",
+                Duration = 2
+            })
+        end)
+    end
+})
