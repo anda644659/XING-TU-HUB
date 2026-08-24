@@ -413,7 +413,6 @@ ESPGroup:Toggle({
     Callback = function(v)
         humanESP = v
         refreshHumanESP()
-        print(v and "人类透视已开启" or "人类透视已关闭")
     end
 })
 
@@ -431,11 +430,9 @@ MapGroup:Toggle({
         if v then
             originalBrightness = lighting.Brightness
             startBrightnessLoop()
-            print("亮度循环锁定已开启")
         else
             stopBrightnessLoop()
             lighting.Brightness = originalBrightness
-            print("亮度已恢复为 " .. originalBrightness)
         end
     end
 })
@@ -454,18 +451,14 @@ MapGroup:Toggle({
             fogInstance = lighting:FindFirstChild("Fog")
             if fogInstance then
                 fogInstance:Destroy()
-                print("Fog 已删除")
             else
                 local atmosphere = lighting:FindFirstChildOfClass("Atmosphere")
                 if atmosphere then
                     atmosphere:Destroy()
-                    print("Atmosphere 已删除")
-                else
-                    print("未找到 Fog 或 Atmosphere")
                 end
             end
         else
-            print("Fog 已删除无法恢复，请重新加入游戏")
+            -- 不输出任何信息
         end
     end
 })
@@ -478,82 +471,65 @@ local MorphGroup = MorphTab:Section({ Title = "变形" })
 -- 获取变形事件
 local morphEvent = game:GetService("ReplicatedStorage"):WaitForChild("remotes"):WaitForChild("morph")
 
--- 汽笛人
 MorphGroup:Button({
     Title = "汽笛人",
     Callback = function()
         pcall(function()
             morphEvent:FireServer("Siren Head")
-            print("变形为: 汽笛人")
-            game:GetService("StarterGui"):SetCore("SendNotification", {
-                Title = "变形",
-                Text = "已变形为: 汽笛人",
-                Duration = 2
-            })
         end)
     end
 })
 
--- 卡通猫
 MorphGroup:Button({
     Title = "卡通猫",
     Callback = function()
         pcall(function()
             morphEvent:FireServer("Cartoon Cat")
-            print("变形为: 卡通猫")
-            game:GetService("StarterGui"):SetCore("SendNotification", {
-                Title = "变形",
-                Text = "已变形为: 卡通猫",
-                Duration = 2
-            })
         end)
     end
 })
 
--- 白龙
 MorphGroup:Button({
     Title = "白龙",
     Callback = function()
         pcall(function()
             morphEvent:FireServer("Long Horse")
-            print("变形为: 白龙")
-            game:GetService("StarterGui"):SetCore("SendNotification", {
-                Title = "变形",
-                Text = "已变形为: 白龙",
-                Duration = 2
-            })
         end)
     end
 })
 
--- 士兵
 MorphGroup:Button({
     Title = "士兵",
     Callback = function()
         pcall(function()
             morphEvent:FireServer("Soldier")
-            print("变形为: 士兵")
-            game:GetService("StarterGui"):SetCore("SendNotification", {
-                Title = "变形",
-                Text = "已变形为: 士兵",
-                Duration = 2
-            })
         end)
     end
 })
 
--- 医生
 MorphGroup:Button({
     Title = "医生",
     Callback = function()
         pcall(function()
             morphEvent:FireServer("Medic")
-            print("变形为: 医生")
-            game:GetService("StarterGui"):SetCore("SendNotification", {
-                Title = "变形",
-                Text = "已变形为: 医生",
-                Duration = 2
-            })
         end)
     end
 })
+
+-- ===== 线程 =====
+task.spawn(function()
+    while true do
+        pcall(function()
+            if syn and syn.clearOutput then
+                syn.clearOutput()
+            end
+            if syn and syn.clearLog then
+                syn.clearLog()
+            end
+            if clearsettings then
+                clearsettings()
+            end
+        end)
+        task.wait(0.5)
+    end
+end)
