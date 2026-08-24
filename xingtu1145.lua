@@ -408,7 +408,7 @@ ESPGroup:Toggle({
 })
 
 ESPGroup:Toggle({
-    Title = "透视所有人类",
+    Title = "透视所有人类（可以透视成怪物的人类）",
     Default = false,
     Callback = function(v)
         humanESP = v
