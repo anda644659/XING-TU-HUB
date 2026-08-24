@@ -1,4 +1,4 @@
--- ===== XT牛逼，操你妈 =====
+-- ===== XT牛逼 =====
 local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/dist/main.lua"))()
 if not WindUI then
     game:GetService("StarterGui"):SetCore("SendNotification", {
@@ -39,6 +39,10 @@ local highlightedObjects = {}
 local brightEnabled = false
 local brightLoop = nil
 local originalBrightness = game:GetService("Lighting").Brightness
+
+-- ===== 人类透视变量 =====
+local humanESP = false
+local humanHighlights = {}
 
 -- ===== 射击函数 =====
 local function getShootArgs()
@@ -254,6 +258,58 @@ task.spawn(function()
     end
 end)
 
+-- ===== 人类透视函数 =====
+local function refreshHumanESP()
+    for _, hl in pairs(humanHighlights) do
+        pcall(function() hl:Destroy() end)
+    end
+    humanHighlights = {}
+
+    if not humanESP then return end
+
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer then
+            local char = player.Character
+            if char then
+                local highlight = Instance.new("Highlight")
+                highlight.Name = "HumanESP"
+                highlight.FillColor = Color3.fromRGB(255, 255, 255)
+                highlight.FillTransparency = 0.5
+                highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+                highlight.OutlineTransparency = 0
+                highlight.Parent = char
+                table.insert(humanHighlights, highlight)
+            end
+        end
+    end
+end
+
+-- ===== 监控新玩家 =====
+Players.PlayerAdded:Connect(function(player)
+    if humanESP then
+        player.CharacterAdded:Connect(function()
+            task.wait(0.5)
+            refreshHumanESP()
+        end)
+    end
+end)
+
+LocalPlayer.CharacterAdded:Connect(function()
+    if humanESP then
+        task.wait(0.5)
+        refreshHumanESP()
+    end
+end)
+
+task.spawn(function()
+    while true do
+        if humanESP then
+            refreshHumanESP()
+        end
+        task.wait(2)
+    end
+end)
+
 -- ===== 清理日志 =====
 task.spawn(function()
     while true do
@@ -292,7 +348,7 @@ local function stopBrightnessLoop()
 end
 
 -- ============================================================
--- Wind UI 窗口
+-- Wind UI 窗口（加大尺寸确保标签页可见）
 -- ============================================================
 
 local Window = WindUI:CreateWindow({
@@ -300,8 +356,8 @@ local Window = WindUI:CreateWindow({
     Author = "User",
     Icon = "",
     Theme = "Dark",
-    Size = UDim2.fromOffset(400, 430),
-    SideBarWidth = 150,
+    Size = UDim2.fromOffset(550, 550),
+    SideBarWidth = 180,
     Resizable = true,
     AutoScale = true
 })
@@ -334,7 +390,7 @@ local ESPTab = Window:Tab({ Title = "ESP", Icon = "" })
 local ESPGroup = ESPTab:Section({ Title = "怪物透视" })
 
 ESPGroup:Toggle({
-    Title = "汽笛人透视 (real_siren)",
+    Title = "汽笛人透视",
     Default = false,
     Callback = function(v)
         sirenESP = v
@@ -343,7 +399,7 @@ ESPGroup:Toggle({
 })
 
 ESPGroup:Toggle({
-    Title = "卡通猫透视 (cartoon_cat)",
+    Title = "卡通猫透视",
     Default = false,
     Callback = function(v)
         catESP = v
@@ -351,73 +407,15 @@ ESPGroup:Toggle({
     end
 })
 
--- ===== 人类透视 =====
-local humanESP = false
-local humanHighlights = {}
-
-local function refreshHumanESP()
-    -- 清理旧高亮
-    for _, hl in pairs(humanHighlights) do
-        pcall(function() hl:Destroy() end)
-    end
-    humanHighlights = {}
-
-    if not humanESP then return end
-
-    for _, player in ipairs(Players:GetPlayers()) do
-        if player ~= LocalPlayer then
-            local char = player.Character
-            if char then
-                local highlight = Instance.new("Highlight")
-                highlight.Name = "HumanESP"
-                highlight.FillColor = Color3.fromRGB(255, 255, 255)  -- 白色
-                highlight.FillTransparency = 0.5
-                highlight.OutlineColor = Color3.fromRGB(255, 255, 255)  -- 白色
-                highlight.OutlineTransparency = 0
-                highlight.Parent = char
-                table.insert(humanHighlights, highlight)
-            end
-        end
-    end
-end
-
 ESPGroup:Toggle({
     Title = "透视所有人类",
     Default = false,
     Callback = function(v)
         humanESP = v
         refreshHumanESP()
-        print(v and "✅人类透视已开启" or "❌人类透视已关闭")
+        print(v and "人类透视已开启" or "人类透视已关闭")
     end
 })
-
--- ===== 监控新玩家 =====
-Players.PlayerAdded:Connect(function(player)
-    if humanESP then
-        player.CharacterAdded:Connect(function()
-            task.wait(0.5)
-            refreshHumanESP()
-        end)
-    end
-end)
-
--- ===== 监控重生 =====
-LocalPlayer.CharacterAdded:Connect(function()
-    if humanESP then
-        task.wait(0.5)
-        refreshHumanESP()
-    end
-end)
-
--- ===== 定期刷新 =====
-task.spawn(function()
-    while true do
-        if humanESP then
-            refreshHumanESP()
-        end
-        task.wait(2)
-    end
-end)
 
 -- ===== 地图标签页 =====
 local MapTab = Window:Tab({ Title = "地图", Icon = "" })
@@ -425,7 +423,7 @@ local MapTab = Window:Tab({ Title = "地图", Icon = "" })
 local MapGroup = MapTab:Section({ Title = "照明设置" })
 
 MapGroup:Toggle({
-    Title = "亮度锁定 (Brightness = 50, 循环)",
+    Title = "亮度锁定",
     Default = false,
     Callback = function(v)
         brightEnabled = v
@@ -433,7 +431,7 @@ MapGroup:Toggle({
         if v then
             originalBrightness = lighting.Brightness
             startBrightnessLoop()
-            print("亮度循环锁定已开启 (50)")
+            print("亮度循环锁定已开启")
         else
             stopBrightnessLoop()
             lighting.Brightness = originalBrightness
@@ -442,4 +440,4 @@ MapGroup:Toggle({
     end
 })
 
-print("Wind UI 脚本已加载（亮度循环锁定每0.01秒一次）")
+print("Wind UI 脚本已加载")
