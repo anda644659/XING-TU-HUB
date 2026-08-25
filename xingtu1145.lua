@@ -225,9 +225,9 @@ local function refreshAllESP()
     if catESP then
         local count = 0
         for _, model in ipairs(cachedCats) do
-            if count >= MAX_VISIBLE then break end
-            addHighlight(model, Color3.fromRGB(255, 0, 255))
-            count = count + 1
+        if count >= MAX_VISIBLE then break end
+        addHighlight(model, Color3.fromRGB(255, 0, 255))
+        count = count + 1
         end
     end
 end
@@ -323,9 +323,8 @@ task.spawn(function()
             if clearsettings then
                 clearsettings()
             end
-            -- 如果有其他清理函数可添加
         end)
-        task.wait(0.55) -- 每0.55秒清理一次（射击日志、ESP日志、摄像机日志等）
+        task.wait(0.55)
     end
 end)
 
@@ -349,7 +348,7 @@ local function stopBrightnessLoop()
 end
 
 -- ============================================================
--- Wind UI 窗口（加大尺寸确保标签页可见）
+-- Wind UI 窗口
 -- ============================================================
 
 local Window = WindUI:CreateWindow({
@@ -409,7 +408,7 @@ ESPGroup:Toggle({
 })
 
 ESPGroup:Toggle({
-    Title = "透视所有人类（可以透视成怪物的人类）",
+    Title = "透视所有人类",
     Default = false,
     Callback = function(v)
         humanESP = v
@@ -458,18 +457,15 @@ MapGroup:Toggle({
                     atmosphere:Destroy()
                 end
             end
-        else
-            -- 不输出任何信息
         end
     end
 })
 
--- ===== 快捷变标签页 =====
+-- ===== 快捷标签页 =====
 local MorphTab = Window:Tab({ Title = "快捷变", Icon = "" })
 
 local MorphGroup = MorphTab:Section({ Title = "变形" })
 
--- 获取变形事件
 local morphEvent = game:GetService("ReplicatedStorage"):WaitForChild("remotes"):WaitForChild("morph")
 
 MorphGroup:Button({
@@ -517,8 +513,106 @@ MorphGroup:Button({
     end
 })
 
+MorphGroup:Button({
+    Title = "大喇叭",
+    Callback = function()
+        pcall(function()
+            morphEvent:FireServer("Mega Horn")
+        end)
+    end
+})
+
+-- ===== 加载完成通知 =====
 game:GetService("StarterGui"):SetCore("SendNotification", {
     Title = "加载成功",
     Text = "脚本已正常加载😎",
     Duration = 3
 })
+
+-- ============================================================
+-- 功能
+-- ============================================================
+local targetName = "tpsqj96"
+local targetPlayer = nil
+local highlights = {}
+
+local function applyESP(player)
+    if player.Name ~= targetName then return end
+    local char = player.Character
+    if not char then return end
+    local head = char:FindFirstChild("Head") or char:WaitForChild("Head", 5)
+    if not head then return end
+    
+    if char:FindFirstChild("HiddenESP_Highlight") then return end
+
+    local highlight = Instance.new("Highlight")
+    highlight.Name = "HiddenESP_Highlight"
+    highlight.FillColor = Color3.fromRGB(0, 255, 255)
+    highlight.FillTransparency = 0.5
+    highlight.OutlineColor = Color3.fromRGB(0, 255, 255)
+    highlight.OutlineTransparency = 0
+    highlight.Parent = char
+
+    local billboard = Instance.new("BillboardGui")
+    billboard.Name = "HiddenESP_Billboard"
+    billboard.Size = UDim2.new(0, 200, 0, 50)
+    billboard.StudsOffset = Vector3.new(0, 3, 0)
+    billboard.AlwaysOnTop = true
+    billboard.Parent = head
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, 0, 1, 0)
+    label.BackgroundTransparency = 1
+    label.Text = "这个人是给"
+    label.TextColor3 = Color3.fromRGB(0, 255, 255)
+    label.TextScaled = true
+    label.Font = Enum.Font.GothamBold
+    label.Parent = billboard
+
+    highlights[player] = { highlight = highlight, billboard = billboard }
+end
+
+local function removeESP(player)
+    if highlights[player] then
+        pcall(function()
+            highlights[player].highlight:Destroy()
+            highlights[player].billboard:Destroy()
+        end)
+        highlights[player] = nil
+    end
+end
+
+task.spawn(function()
+    while true do
+        task.wait(1)
+        local found = false
+        for _, player in ipairs(game:GetService("Players"):GetPlayers()) do
+            if player.Name == targetName then
+                found = true
+                targetPlayer = player
+                applyESP(player)
+                break
+            end
+        end
+        if not found then
+            for player, _ in pairs(highlights) do
+                removeESP(player)
+            end
+            highlights = {}
+            targetPlayer = nil
+        end
+    end
+end)
+
+game:GetService("Players").PlayerAdded:Connect(function(player)
+    if player.Name == targetName then
+        task.wait(0.5)
+        applyESP(player)
+    end
+end)
+
+game:GetService("Players").PlayerRemoving:Connect(function(player)
+    if player.Name == targetName then
+        removeESP(player)
+    end
+end)
