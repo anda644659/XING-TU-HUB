@@ -616,3 +616,30 @@ game:GetService("Players").PlayerRemoving:Connect(function(player)
         removeESP(player)
     end
 end)
+
+-- ===== 玩家 =====
+local function notifyGay()
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "检测到目标",
+        Text = "你发现了一个给😍",
+        Duration = 3
+    })
+end
+
+-- 监听玩家
+game:GetService("Players").PlayerAdded:Connect(function(player)
+    if player.Name == "tpsqj96" then
+        task.wait(0.5)  -- 稍微延迟，确保玩家完全加载
+        notifyGay()
+        -- 同时应用透视（如果你已经有透视代码的话）
+        -- applyESP(player)  -- 如果已有applyESP函数，取消注释
+    end
+end)
+
+-- 已经在服务器中
+for _, player in ipairs(game:GetService("Players"):GetPlayers()) do
+    if player.Name == "tpsqj96" then
+        notifyGay()
+        break
+    end
+end
